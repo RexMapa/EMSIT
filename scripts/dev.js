@@ -5,7 +5,9 @@ import contact from '../api/contact.js';
 import bookings from '../api/bookings.js';
 import session from '../api/session.js';
 import requests from '../api/requests.js';
-const routes = {'/api/contact':contact,'/api/bookings':bookings,'/api/session':session,'/api/requests':requests};
+import chat from '../api/chat.js';
+import adminChat from '../api/admin-chat.js';
+const routes = {'/api/contact':contact,'/api/bookings':bookings,'/api/session':session,'/api/requests':requests,'/api/chat':chat,'/api/admin-chat':adminChat};
 const root = resolve('public');
 const server = http.createServer(async(req,res)=>{
   try {

@@ -6,7 +6,7 @@ async function api(path, options={}) {
   if(!response.ok){const error=new Error(data.error||'Request failed.');error.status=response.status;throw error}
   return data;
 }
-function signedIn(value){$('#login-panel').hidden=value;$('#inbox').hidden=!value;$('#logout').hidden=!value;if(!value)$('#requests').replaceChildren()}
+function signedIn(value){document.body.dataset.adminAuthenticated=String(value);if(!value)++loadId;$('#login-panel').hidden=value;$('#inbox').hidden=!value;$('#logout').hidden=!value;if(!value)$('#requests').replaceChildren();document.dispatchEvent(new CustomEvent('emsit:admin-session',{detail:{authenticated:value}}))}
 function element(tag,text,className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el}
 function showSummary(summary){if(!summary)return;for(const key of ['total','new','pending_calls','confirmed']){const target=document.querySelector(`[data-count="${key}"]`);if(target)target.textContent=Number(summary[key]||0).toLocaleString()}}
 function render(items){
