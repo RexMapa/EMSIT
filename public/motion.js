@@ -28,10 +28,11 @@ heroVisual?.addEventListener('pointermove',event=>{
 heroVisual?.addEventListener('pointerleave',clearTilt);
 function entrance(){document.documentElement.classList.remove('motion-ready');requestAnimationFrame(()=>document.documentElement.classList.add('motion-ready'))}
 const intro=document.querySelector('.intro');
-if(intro&&!intro.classList.contains('done')){const observer=new MutationObserver(()=>{if(intro.classList.contains('done'))entrance()});observer.observe(intro,{attributes:true,attributeFilter:['class']})}else entrance();
+document.addEventListener('emsit:intro-exit',entrance);
+if(intro&&!intro.classList.contains('done')){const observer=new MutationObserver(()=>{if(intro.classList.contains('done')&&!document.documentElement.classList.contains('motion-ready'))entrance()});observer.observe(intro,{attributes:true,attributeFilter:['class']})}else entrance();
 // Role changes transition the panel contents without changing focus or tab semantics.
 document.querySelectorAll('[data-role]').forEach(tab=>tab.addEventListener('click',()=>{
-  if(motionPreference.matches)return;
+  if(motionPreference.matches||document.documentElement.classList.contains('splash-active'))return;
   const panel=document.querySelector('#role-panel');
   if(panel?.animate){panel.getAnimations().forEach(animation=>animation.cancel());panel.animate([{opacity:.4,translate:'0 10px'},{opacity:1,translate:'0 0'}],{duration:420,easing:'cubic-bezier(.16,1,.3,1)'})}
 }));
@@ -51,7 +52,7 @@ function resetPageTransition(){
 }
 function enterPage(){
   resetPageTransition();
-  if(motionPreference.matches)return;
+  if(motionPreference.matches||document.documentElement.classList.contains('splash-active'))return;
   document.documentElement.classList.remove('page-entering');
   requestAnimationFrame(()=>document.documentElement.classList.add('page-entering'));
 }

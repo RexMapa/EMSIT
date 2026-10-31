@@ -1,11 +1,36 @@
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const intro=document.querySelector('.intro');
-const pageSections=[...document.querySelectorAll('body > header, body > main, body > footer')];let introFrame,restoreFocus=null,introFallback;
-function dismissIntro(){intro.classList.add('done');pageSections.forEach(el=>el.inert=false);cancelAnimationFrame(introFrame);clearTimeout(introFallback);if(document.activeElement===document.querySelector('#skip'))(restoreFocus||document.querySelector('.logo')).focus({preventScroll:true})}
-function startIntro(){if(reduced){dismissIntro();return}restoreFocus=document.activeElement;pageSections.forEach(el=>el.inert=true);intro.classList.remove('done','intro-out-now');intro.style.display='none';void intro.offsetWidth;intro.style.display='';document.querySelector('#skip').focus({preventScroll:true});const started=performance.now();function tick(now){document.querySelector('#intro-count').textContent=String(Math.min(100,Math.floor((now-started)/32))).padStart(2,'0');if(!intro.classList.contains('done'))introFrame=requestAnimationFrame(tick)}introFrame=requestAnimationFrame(tick);introFallback=setTimeout(dismissIntro,4800)}
-document.querySelector('#skip').addEventListener('click',()=>intro.classList.add('intro-out-now'));
-intro.addEventListener('animationend',e=>{if(e.target===intro&&e.animationName==='curtain-open')dismissIntro()});
-intro.addEventListener('keydown',e=>{if(e.key==='Escape')dismissIntro();if(e.key==='Tab'){e.preventDefault();document.querySelector('#skip').focus()}});
+const pageSections=[...document.querySelectorAll('body > header, body > main, body > footer')];
+let introFrame,restoreFocus=null,introFallback,introExitTimer,introExiting=false,introRun=0;
+function dismissIntro(){intro.classList.add('done');pageSections.forEach(el=>el.inert=false);cancelAnimationFrame(introFrame);clearTimeout(introFallback);clearTimeout(introExitTimer);intro.getAnimations().forEach(a=>a.cancel());document.documentElement.classList.remove('splash-active');if(document.activeElement===document.querySelector('#skip'))(restoreFocus?.isConnected&&restoreFocus!==document.body?restoreFocus:document.querySelector('.logo')).focus({preventScroll:true})}
+async function finishIntro(){
+  if(introExiting||intro.classList.contains('done'))return;
+  introExiting=true;clearTimeout(introExitTimer);cancelAnimationFrame(introFrame);
+  document.querySelector('#intro-count').textContent='100';
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!intro.animate){dismissIntro();return}
+  const run=introRun;
+  intro.classList.add('intro-exiting');
+  document.documentElement.classList.add('splash-revealing');
+  document.dispatchEvent(new Event('emsit:intro-exit'));
+  const animation=intro.animate([{transform:'translateY(0)',opacity:1},{transform:'translateY(-8%)',opacity:1,offset:.3},{transform:'translateY(-100%)',opacity:0}],{duration:1100,easing:'cubic-bezier(.76,0,.24,1)',fill:'forwards'});
+  try{await animation.finished}catch{}
+  if(run===introRun)dismissIntro();
+}
+function startIntro(){
+  introRun++;clearTimeout(introFallback);clearTimeout(introExitTimer);cancelAnimationFrame(introFrame);
+  intro.getAnimations().forEach(a=>a.cancel());introExiting=false;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){dismissIntro();return}
+  restoreFocus=document.activeElement;pageSections.forEach(el=>el.inert=true);
+  document.documentElement.classList.remove('splash-revealing','motion-ready','page-entering');
+  document.documentElement.classList.add('splash-active');
+  intro.classList.remove('done','intro-out-now','intro-exiting');intro.style.display='none';void intro.offsetWidth;intro.style.display='';
+  document.querySelector('#skip').focus({preventScroll:true});const started=performance.now();
+  function tick(now){document.querySelector('#intro-count').textContent=String(Math.min(100,Math.floor((now-started)/32))).padStart(2,'0');if(!introExiting&&!intro.classList.contains('done'))introFrame=requestAnimationFrame(tick)}
+  introFrame=requestAnimationFrame(tick);introExitTimer=setTimeout(finishIntro,3250);
+  introFallback=setTimeout(()=>{if(!introExiting)finishIntro();else dismissIntro()},6500);
+}
+document.querySelector('#skip').addEventListener('click',finishIntro);
+intro.addEventListener('keydown',e=>{if(e.key==='Escape')finishIntro();if(e.key==='Tab'){e.preventDefault();document.querySelector('#skip').focus()}});
 document.querySelector('#replay').addEventListener('click',startIntro);
 let internalArrival=false;
 try{internalArrival=!!document.referrer&&new URL(document.referrer).origin===location.origin}catch{}

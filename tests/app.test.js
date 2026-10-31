@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { PGlite } from '@electric-sql/pglite';
 import { validateSubmission } from '../lib/validation.js';
-import { saveRequest, consumeLimit, listRequests, updateStatus } from '../lib/store.js';
+import { saveRequest, consumeLimit, listRequests, updateStatus, requestSummary } from '../lib/store.js';
 import { submissionEndpoint } from '../lib/submit.js';
 import { sessionToken, validToken, passwordMatches, requireAdmin } from '../lib/auth.js';
 import requestsEndpoint from '../api/requests.js';
@@ -69,4 +69,12 @@ test('API writes to PostgreSQL and reports success only after persistence',async
 });
 test('private inbox rejects unauthenticated requests',async()=>{
   const res=response();await requestsEndpoint({method:'GET',headers:{},url:'/api/requests'},res);assert.equal(res.statusCode,401);assert.equal(res.headers['Cache-Control'],'no-store');
+});
+test('admin search and overview use saved records across pages',async()=>{
+  const value=validateSubmission(message({company:'Unique Search Company'}),'message');await saveRequest(sql,value);
+  const rows=await listRequests(sql,{kind:'all',status:'all',offset:0,search:'unique search'});
+  assert.equal(rows.length,1);assert.equal(rows[0].id,value.id);
+  assert.equal((await listRequests(sql,{kind:'all',status:'all',offset:0,search:"' OR 1=1 --"})).length,0);
+  const before=await requestSummary(sql);await updateStatus(sql,value.id,'closed');const after=await requestSummary(sql);
+  assert.equal(after.total,before.total);assert.equal(after.new,before.new-1);
 });
