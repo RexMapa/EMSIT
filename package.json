@@ -1,0 +1,15 @@
+{
+  "name": "emsit-webapp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "22.x" },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env.local scripts/dev.js",
+    "build": "node scripts/build.js",
+    "test": "node --test tests/*.test.js",
+    "db:migrate": "node --env-file-if-exists=.env.local scripts/migrate.js"
+  },
+  "dependencies": { "@neondatabase/serverless": "^1.0.2" },
+  "devDependencies": { "@electric-sql/pglite": "^0.3.14" }
+}
