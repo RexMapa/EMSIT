@@ -2,11 +2,13 @@ import {database} from '../lib/db.js';
 import {endpoint,requireMethod,sameOrigin,readJson,json} from '../lib/http.js';
 import {clientKey,consumeLimit} from '../lib/store.js';
 import {HttpError} from '../lib/validation.js';
+import {expireChats,issueChatCode,recoverChat} from '../lib/chat-recovery.js';
 import {visitorIdentity,visitorThread,ensureThread,messageInput,sendChatMessage,chatMessages,markChatRead,cursor} from '../lib/chat.js';
 export function chatEndpoint(getDatabase=database){return endpoint(async(req,res)=>{
   requireMethod(req,res,['GET','POST','PATCH']);
   if(req.method!=='GET')sameOrigin(req);
   const hash=visitorIdentity(req,res),sql=getDatabase();
+  await expireChats(sql);
   let thread=await visitorThread(sql,hash);
   if(req.method==='GET'){
     if(!thread)return json(res,200,{thread:null,messages:[],hasMore:false,unread:0});
@@ -16,9 +18,25 @@ export function chatEndpoint(getDatabase=database){return endpoint(async(req,res
     return json(res,200,{thread:publicThread,...await chatMessages(sql,thread.id,after),unread:unread[0].unread});
   }
   const body=await readJson(req);
+  if(req.method==='POST'&&body.action==='new'){
+    visitorIdentity(req,res,true);return json(res,200,{ok:true});
+  }
+  if(req.method==='POST'&&body.action==='recover'){
+    await consumeLimit(sql,clientKey(req,'chat-recover'),10);
+    // Prepare a fresh cookie but send it only after a successful recovery.
+    const headers={};const newHash=visitorIdentity(req,{setHeader(k,v){headers[k]=v;}},true);
+    await recoverChat(sql,body.code,newHash);res.setHeader('Set-Cookie',headers['Set-Cookie']);return json(res,200,{ok:true});
+  }
+  if(req.method==='POST'&&body.action==='code'){
+    if(!thread)throw new HttpError(404,'Conversation not found.');
+    await consumeLimit(sql,clientKey(req,'chat-code'),20);
+    return json(res,200,{code:await issueChatCode(sql,thread.id)});
+  }
   if(req.method==='PATCH'){
     if(!thread)throw new HttpError(404,'Conversation not found.');
-    await markChatRead(sql,thread.id,'visitor',cursor(body.lastId));return json(res,200,{ok:true});
+    await markChatRead(sql,thread.id,'visitor',cursor(body.lastId));
+    if(body.opened===true)await sql`UPDATE emsit_chats SET expires_at=now()+interval '3 days' WHERE id=${thread.id} AND expires_at IS NOT NULL`;
+    return json(res,200,{ok:true});
   }
   const input=messageInput(body);
   await consumeLimit(sql,clientKey(req,'chat-send'),60);

@@ -20,3 +20,7 @@ CREATE TABLE IF NOT EXISTS emsit_chat_messages (
 );
 CREATE INDEX IF NOT EXISTS emsit_chat_messages_thread_idx ON emsit_chat_messages (chat_id,id);
 CREATE INDEX IF NOT EXISTS emsit_chats_updated_idx ON emsit_chats (updated_at DESC);
+ALTER TABLE emsit_chats ADD COLUMN IF NOT EXISTS recovery_hash text;
+ALTER TABLE emsit_chats ADD COLUMN IF NOT EXISTS expires_at timestamptz;
+CREATE UNIQUE INDEX IF NOT EXISTS emsit_chats_recovery_idx ON emsit_chats(recovery_hash) WHERE recovery_hash IS NOT NULL;
+CREATE INDEX IF NOT EXISTS emsit_chats_expiry_idx ON emsit_chats(expires_at) WHERE expires_at IS NOT NULL;
