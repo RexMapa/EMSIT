@@ -38,7 +38,15 @@ const historyArrival=performance.getEntriesByType('navigation')[0]?.type==='back
 if(internalArrival||historyArrival)dismissIntro();else startIntro();
 if(!reduced&&'IntersectionObserver' in window){document.documentElement.classList.add('js-motion');const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));}
 const menu=document.querySelector('.menu');menu.addEventListener('click',()=>{const open=document.querySelector('header').classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Close menu':'Open menu');menu.textContent=open?'×':'☰'});document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>{document.querySelector('header').classList.remove('open');menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Open menu');menu.textContent='☰'}));
-const roles=[{kicker:'KEEP THE BOOKS MOVING',title:'More clarity.<br>Less catching up.',description:'Support for transaction coding, reconciliation preparation, and month-end schedules.',price:'$1,910',saving:'65%'},{kicker:'KEEP CASH FLOWING',title:'Stay on top.<br>Keep things moving.',description:'Support for bill entry, vendor follow-ups, billing, aging, and cash application.',price:'$1,970',saving:'63%'},{kicker:'MAKE SPACE FOR CLIENTS',title:'A smoother day.<br>A stronger practice.',description:'Support for client document requests, CRM updates, scheduling, and task tracking.',price:'$1,790',saving:'63%'}];
-const tabs=[...document.querySelectorAll('[data-role]')];function selectRole(index){const role=roles[index];tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1});document.querySelector('#role-panel').setAttribute('aria-labelledby',`tab-${index}`);document.querySelector('#role-kicker').textContent=role.kicker;document.querySelector('#role-title').innerHTML=role.title;document.querySelector('#role-description').textContent=role.description;document.querySelector('#role-price').innerHTML=role.price+'<span> / mo</span>';document.querySelector('#role-saving').innerHTML='Up to '+role.saving+'<br><small>vs. a U.S. hire</small>'}
-tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>selectRole(i));tab.addEventListener('keydown',e=>{let next;if(e.key==='ArrowRight'||e.key==='ArrowDown')next=(i+1)%tabs.length;if(e.key==='ArrowLeft'||e.key==='ArrowUp')next=(i+tabs.length-1)%tabs.length;if(e.key==='Home')next=0;if(e.key==='End')next=tabs.length-1;if(next!==undefined){e.preventDefault();selectRole(next);tabs[next].focus()}})});
 document.querySelector('#year').textContent=new Date().getFullYear();
+// Real photos: drop /assets/photos/<slot>.jpg|webp|png into place and the placeholder is replaced automatically.
+document.querySelectorAll('img[data-photo]').forEach(img=>{
+  const base=img.dataset.photo,figure=img.closest('.photo-slot');
+  (function attempt(types){
+    if(!types.length)return;
+    const probe=new Image();
+    probe.onload=()=>{img.src=probe.src;img.alt=img.dataset.alt||'';figure?.classList.remove('is-placeholder')};
+    probe.onerror=()=>attempt(types.slice(1));
+    probe.src=base+'.'+types[0];
+  })(['jpg','webp','png']);
+});
