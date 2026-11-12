@@ -1,3 +1,4 @@
+(()=>{
 // Progressive enhancement: native scrolling, bounded pointer depth, no animation library.
 const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
 const pointerPreference = matchMedia('(hover: hover) and (pointer: fine)');
@@ -79,3 +80,5 @@ document.addEventListener('click',event=>{
 motionPreference.addEventListener('change',()=>{
   if(motionPreference.matches)document.documentElement.classList.remove('page-entering','page-leaving');
 });
+
+})();

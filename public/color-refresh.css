@@ -1,0 +1,58 @@
+/* EMSIT's original Coral, with light brand surfaces. */
+.hero h1 em,
+.intro-grid h2 em,
+.roles-heading h2 em,
+.editorial-heading h2 em,
+.process-heading h2 em,
+.faq-grid h2 em,
+.contact h2 em,
+.contact-page-intro h1 em,
+.contact-info h2 em{color:var(--coral)}
+.highlight-card:nth-child(n){background:var(--coral-mist)}
+.highlight-card strong,.highlight-card>span{color:var(--coral)}
+.principles article:nth-child(1){background:var(--coral-mist)}
+.principles article:nth-child(2){background:var(--mist)}
+.principles article:nth-child(3){background:var(--sky)}
+.principles .principle-icon{background:var(--pearl);box-shadow:inset 3px 3px 8px #18315314,inset -3px -3px 8px #ffffffb3}
+.service-card:nth-child(4n+1){background:var(--coral-mist)}
+.service-card:nth-child(4n+2){background:var(--mist)}
+.service-card:nth-child(4n+3){background:var(--sky)}
+.service-card:nth-child(4n){background:var(--pearl)}
+.service-icon{background:var(--pearl);box-shadow:inset 3px 3px 8px #18315314,inset -3px -3px 8px #ffffffb3}
+.comparison-row:nth-child(odd){background:var(--mist)}
+.comparison-row:nth-child(even){background:var(--coral-mist)}
+.comparison-row .solution-check{background:var(--pearl)}
+.role-panel{background:var(--mist)}
+.role-panel .saving{background:var(--coral-mist)}
+.invitation{background:var(--coral-mist)}
+.photo-caption{background:var(--mist)}
+.story-quote{border-left-color:var(--coral)}
+.about-visual>.eyebrow{color:var(--coral)}
+.highlight-card,.service-card,.comparison-row,.principles article,.role-panel,.invitation{border-color:#ffffffbf}
+
+/* Additional title accents selected in the homepage review. */
+.intro-grid .large-copy,
+.benefit-list strong,
+.benefit-list li>span,
+.role-tabs button,
+.role-tabs button[aria-selected=true],
+.role-tabs button span,
+.role-tabs button[aria-selected=true] span,
+.role-tabs button b,
+.role-note,
+.role-panel h3,
+.price-row strong,
+.price-row strong span,
+.about-grid .story-copy h3,
+.steps h3,
+.faqs summary,
+.faqs summary>span,
+.invitation h3,
+.invitation>.eyebrow{color:var(--coral)}
+
+/* Keep supporting role navigation navy; role titles retain Coral. */
+.role-tabs button span,.role-tabs button[aria-selected=true] span,.role-tabs button b,.role-tabs button[aria-selected=true] b,.role-note{color:var(--navy)}
+
+/* Full-width partnership section. */
+.model.section{width:100%;max-width:none;margin-left:0;margin-right:0;border-radius:0;border:0;box-shadow:none;background:var(--navy)}
+

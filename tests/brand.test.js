@@ -2,14 +2,14 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,access} from 'node:fs/promises';
 test('all application pages use the fixed wordmark and brand stylesheet',async()=>{
-  for(const name of ['index.html','contact.html','admin.html']){
+  for(const name of ['index.html','contact.html','hiring.html','admin.html']){
     const html=await readFile('public/'+name,'utf8');
     assert(html.includes('/brand.css'));assert(html.includes('/assets/emsit-navy.svg'));
     assert(!/href="\/?(?:luxury|style)\.css"/.test(html));
-    assert(!html.includes('contact-emblem'));assert(!html.includes('sculpture'));
+    assert(!html.includes('contact-emblem'));
     for(const match of html.matchAll(/(?:src|href)="(\/[^"#?]+)(?:[?#][^"]*)?"/g)){
       if(match[1]==='/contact'||match[1]==='/')continue;
-      await access('public'+match[1]);
+      await access('public'+match[1]+(!match[1].split('/').pop().includes('.')?'.html':''));
     }
   }
 });

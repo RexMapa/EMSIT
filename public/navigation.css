@@ -1,0 +1,29 @@
+header{display:grid;grid-template-columns:172px minmax(0,1fr) 172px;gap:18px;padding-inline:24px}
+header .logo{width:172px}
+header nav{gap:0;margin:0;justify-content:center;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.025em}
+header nav>a,header .nav-services{padding-inline:12px;border-right:0;white-space:nowrap}
+header nav>a{padding-block:0;border-bottom:0}
+header nav>a::after{bottom:-7px;background:var(--coral)}
+header .nav-cta{justify-self:end;color:var(--coral);white-space:nowrap;font-size:12px;text-transform:uppercase;border:0;box-shadow:none;background:transparent;padding:12px 0}
+header .nav-cta span{margin-left:8px}
+.nav-services{position:relative}
+.nav-services summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:center;gap:6px;font:inherit;letter-spacing:inherit;padding:0;background:transparent;border:0;box-shadow:none}
+.nav-services summary>span{display:inline-block;width:auto;height:auto;border-radius:0;box-shadow:none;font-size:12px;line-height:1;color:currentColor;transform:none}
+.nav-services[open] summary>span{transform:rotate(180deg)}
+header nav a:focus-visible,header .nav-services summary:focus-visible{outline:2px solid var(--coral);outline-offset:6px;border-radius:2px}
+.nav-services summary::-webkit-details-marker{display:none}
+.nav-services[open] summary{color:var(--coral)}
+.nav-dropdown{position:absolute;top:calc(100% + 22px);left:0;min-width:230px;padding:12px;background:var(--pearl);border:1px solid white;border-radius:14px;box-shadow:0 16px 35px #18315320;display:grid;gap:2px;text-transform:none;letter-spacing:0;font-size:14px}
+header .nav-dropdown a{padding:12px;border:0;border-radius:8px}
+header .nav-dropdown a:hover{background:var(--coral-mist)}
+header .nav-dropdown a::after{display:none}
+/* Root scroll-padding already clears the sticky header. Offset the section's
+   internal padding so the Locations heading, rather than its empty edge, lands there. */
+#locations{scroll-margin-top:-112px}
+@media(max-width:760px){#locations{scroll-margin-top:-72px}}
+.nav-dropdown{max-height:min(640px,calc(100dvh - 150px));overflow-y:auto;overscroll-behavior:contain}
+header .nav-dropdown a{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--mist);border-radius:0;line-height:1.4}
+header .nav-dropdown a:last-child{border-bottom:0}
+@media(max-width:1150px){header .logo{width:140px}header{grid-template-columns:140px minmax(0,1fr) 140px;gap:12px}header nav>a,header .nav-services{padding-inline:8px}header nav{font-size:10px}}
+@media(min-width:761px) and (max-width:960px){header{display:flex;flex-wrap:wrap;height:auto;min-height:110px;padding-block:16px}header nav{order:3;width:100%;justify-content:center;font-size:11px}header .nav-cta{margin-left:auto}}
+@media(max-width:760px){header{display:flex}header .logo{width:145px}header nav{margin:0;font-size:13px;gap:0}header nav>a,header .nav-services{padding:14px 8px;border-right:0;border-bottom:1px solid var(--mist)}header .nav-cta{font-size:10px;margin-left:auto}header .nav-cta span{display:none}.nav-dropdown{position:static;box-shadow:none;border:0;margin-top:12px;min-width:0;padding:4px;background:var(--mist)}header .nav-dropdown a{padding:12px}.nav-services summary{justify-content:space-between}header nav>a::after{display:none}}

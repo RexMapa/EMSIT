@@ -9,6 +9,7 @@ The EMSIT Navy Identity v1.4 website, packaged as a standalone GitHub → Vercel
 - `/contact`: message and discovery-call tabs with date, time and timezone selection.
 - `/api/contact` and `/api/bookings`: validated submissions saved to Neon.
 - `/admin`: password-protected inbox, type/status filters, pagination, status changes and email reply links.
+- Visitor chat on the homepage and contact page; protected admin replies, unread counts, conversation history and close/reopen controls. Chat polls every four seconds while open and visible (not WebSockets).
 - Signed, expiring HttpOnly admin sessions; same-origin mutation checks; shared database rate limits; duplicate-request protection; parameterized SQL.
 - Database schema, local app server, integration tests and GitHub Actions checks.
 
@@ -23,10 +24,16 @@ If working from the parent EMSIT workspace instead, set Vercel's **Root Director
 ## 2. Create the Neon database
 
 1. Create a Neon project/database for EMSIT (a separate database avoids mixing it with PrimeSphere).
-2. Open Neon SQL Editor and run the complete `database/schema.sql` file. It is safe to rerun; it does not delete data.
+2. Open Neon SQL Editor and run `database/schema.sql`, followed by `database/chat.sql`. These scripts are safe to rerun; they do not delete data. Existing installations only need the new `chat.sql`.
 3. Copy the database connection string from Neon’s Connect dialog. Keep it private.
 
 Alternatively, set `DATABASE_URL` locally and run `npm run db:migrate`. Schema creation is explicit and is not run automatically during production builds.
+
+Chat follows the PrimeSphere guest flow: a round pulsing launcher, navy conversation panel, start-new and recover-by-code options, private `EMSIT-XXXX-XXXX-XXXX` recovery codes, and animated open/close transitions. Name and email are optional. A private HttpOnly cookie keeps the current browser connected. Recovery codes are bearer credentials: anyone holding one can reopen that chat. Only their SHA-256 hashes are stored in Neon. Generating another code replaces the previous code; recovery moves access to the new browser. Recovery attempts are rate limited.
+
+New guest chats expire after three days without being opened. Opening the conversation resets its timer; polling while minimized and admin replies do not. Expired guest chats and messages are deleted on the next chat API request (no scheduled cron). Existing chats from before this update have no expiry and are preserved. Rerun `database/chat.sql` to add the required recovery/expiry columns before deploying this update.
+
+Replies appear in website chat, not by email. Direct email/phone links open external apps and cannot be captured in admin; submitted contact forms and call requests are saved there. There are no automatic email or desktop notifications. Closed conversations reopen when either participant sends a message. EMSIT retains its single-admin authentication; PrimeSphere's separate member accounts, client portal and multimedia storage are not part of this guest-chat update.
 
 ## 3. Deploy on Vercel
 
