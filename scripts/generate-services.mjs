@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 const catalog = [
+ ['Practice operations','Keep client work on schedule','Document requests|Follow up on client documents and track outstanding items.','CRM updates|Maintain client records and log changes in your CRM.','Scheduling|Coordinate appointments and confirm meeting times.','Task tracking|Maintain open task lists and flag overdue work.'],
  ['Virtual assistant','Make space for your priorities','Calendar coordination|Schedule meetings, confirm availability, and prepare reminders.','Administrative support|Organize documents, update records, and coordinate routine requests.','Travel preparation|Research options and prepare itineraries for your approval.','Follow-up tracking|Keep action lists current and flag overdue responses.'],
  ['Recruiting','Keep your hiring pipeline moving','Candidate sourcing|Build prospect lists against your role criteria.','Application screening|Check applications against agreed experience and qualification requirements.','Interview coordination|Arrange interviews and keep candidates informed.','Pipeline administration|Maintain applicant records and follow-up schedules.'],
  ['Data entry','Turn everyday information into reliable records','Data input and processing|Enter text, numbers, and structured information into your systems using agreed templates.','Database maintenance|Update records, flag duplicates, and organize fields for consistent use.','Data conversion|Transfer information between agreed document and spreadsheet formats.','Data review and reporting|Check completeness, highlight exceptions, and prepare structured summaries.','Document management|Index, name, and organize documents for easier retrieval.','Online data entry|Maintain information in your approved web platforms.','Survey and forms processing|Capture form responses and organize them into usable records.'],
@@ -45,3 +46,5 @@ for(const [name,headline,...items] of catalog){
 console.log(`Generated ${catalog.length} service pages and updated service links.`);
 
 await import('./sync-page-bottoms.mjs');
+
+await import('./refresh-public.mjs');

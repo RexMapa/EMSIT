@@ -1,0 +1,198 @@
+:root {
+  --content: 1100px;
+  --gutter: clamp(20px, 6vw, 88px);
+  --raised: none;
+  --raised-small: none;
+  --inset: none;
+}
+html { scroll-padding-top: 88px; }
+body { max-width: none; background: var(--pearl); }
+body :is(main,header,footer) *, body .intro, body .intro * { box-shadow: none !important; }
+header, header.scrolled {
+  position: sticky; top: 0; z-index: 50; margin: 0; width: 100%; max-width: none;
+  height: 68px; min-height: 68px; border: 0; border-bottom: 1px solid var(--mist);
+  border-radius: 0; background: var(--pearl); display: flex; align-items: center;
+  gap: 16px; padding: 0 max(var(--gutter), calc((100% - var(--content))/2));
+}
+header .logo { width: 142px; flex: none; }
+header nav { margin: 0 auto; font-size: 13px; font-weight: 600; text-transform: none; letter-spacing: 0; }
+header nav > a, header .nav-services { padding-inline: 8px; }
+header .nav-cta, header .nav-cta:hover, .service-page .service-hero .primary, body .button.primary, body .button.gold, body .button.dark {
+  background: var(--navy); color: white; border: 0; font-weight: 700; text-transform: none;
+  border-radius: 6px; padding: 12px 18px; font-size: 14px;
+}
+header .nav-cta span { display:none; }
+body .nav-dropdown { top: calc(100% + 12px); border: 1px solid #cfdae6; border-radius: 6px; }
+body main > :is(.section,.hero,.service-scope,.service-faq,.service-contact,.service-related,.contact-layout,.hiring-layout,.contact-page-intro) {
+  width: 100%; max-width: none; margin: 0; padding: 54px max(var(--gutter), calc((100% - var(--content))/2)); border-radius: 0;
+}
+body main > :is(.service-contact,.service-scope,.contact-layout,.hiring-layout), body :is(.hero-grid,.story-grid,.about-grid,.faq-grid,.roles-grid) { gap:clamp(22px,4vw,52px); }
+body .hero-grid { min-height: 0; }
+body .hero-copy { padding: 0; }
+body .hero-visual.hero-photo { margin:0; }
+body .hero-photo-blend { aspect-ratio: 1.42; }
+body .hero-bottom { margin:22px 0 0; padding:12px 0; }
+body .hero-note { padding:0; }
+body .section :is(.editorial-heading,.problem-heading) { margin-bottom:28px; }
+body .section :is(.service-grid,.principles,.kazakhstan-grid,.onboarding-grid,.highlight-grid) { gap:16px; }
+body :is(.offset-image,.about-person,.service-visual) { margin:0; padding:0; }
+body .about-person img, body .offset-image img { height:clamp(260px,30vw,365px); }
+body main :is(.highlight-card,.service-card,.principles article,.onboarding-card,.role-panel,.service-benefits article,.service-visual,.location-card,.contact-card,.hiring-form,.service-inquiry-form,.hiring-help) { border-radius:8px; border:1px solid #d6e1eb; }
+body :is(.intro::before,.intro::after,.hero::before,.hero h1 em::after,.section-top .eyebrow::before,.button::after,.location-grid::before,.depth-layer) { display:none; }
+body main > :is(.why-emsit,.locations-section,.roles,.service-contact,.approach) { background:var(--mist); }
+body .about-person, body .hiring-help { background:var(--coral-mist); }
+body main :is(h1,h2,h3,h1 em,h2 em,h3 em,.benefit-list strong,.service-card h3,.role-tabs button,.service-related h3) { color:var(--navy); }
+body main :is(.eyebrow,.owner-label,.service-number,.onboarding-number) { color:var(--coral); }
+body main .eyebrow { font-size:13px; font-weight:600; letter-spacing:.09em; }
+body :is(.benefit-list strong,.service-benefits h2,.service-card h3,.problem-columns,.onboarding-card h3) { font-weight:600; }
+body .service-benefits h2 { font-size:23px; }
+body :is(.benefit-list p,.service-card p,.form-note,.services-note,.destination-note,.hero-note) { font-size:14px; }
+body .onboarding-card { min-height:250px; padding:24px; background:var(--pearl); color:var(--navy); }
+body .onboarding-card:nth-child(2) { background:var(--coral-mist); }
+body .onboarding-number { color:var(--navy); font-size:32px; font-weight:600; }
+body .onboarding-icon { background:none; color:var(--navy); border-radius:0; width:32px; height:32px; }
+body .onboarding-card h3 { margin:24px 0 8px; }
+body .onboarding-card :is(.onboarding-detail p,.onboarding-hint) { color:var(--slate); }
+body .service-hero { background:var(--mist); margin:0; border-radius:0; padding:42px var(--gutter) 74px; color:var(--navy); }
+body .service-hero :is(.service-back,p:not(.eyebrow)) { color:var(--slate); }
+body .service-benefits { margin-top:-32px; }
+body .service-banner h2 { color:white; }
+body .welcome-logo { width:112px; height:auto; vertical-align:baseline; }
+body .info-item span svg { width:18px; height:18px; fill:none; stroke:var(--navy); stroke-width:1.7; margin-right:10px; vertical-align:middle; }
+body .info-item:first-of-type span svg { stroke:var(--coral); }
+body .application-layout { max-width:860px; margin:auto; padding:52px var(--gutter); }
+body .application-layout .service-inquiry-form { background:white; margin-top:24px; }
+body .whatsapp { position:fixed; right:18px; bottom:18px; z-index:60; border:0; padding:0; }
+body .whatsapp summary { font-size:14px; background:var(--coral); color:var(--navy); font-weight:700; border-radius:7px; padding:12px 18px; }
+body .whatsapp div { position:absolute; bottom:54px; right:0; width:245px; padding:18px; background:white; border:1px solid #cad5e0; border-radius:8px; }
+body .whatsapp div p { margin:8px 0; } body .whatsapp div a { text-decoration:underline; }
+body #locations { scroll-margin-top:0; }
+@media(max-width:1100px){
+ header,header.scrolled {justify-content:space-between;flex-wrap:nowrap;}
+ header .menu {display:block;width:40px;height:40px;}
+ header .nav-cta {margin-left:auto;}
+ header nav {display:none;position:absolute;top:100%;left:0;right:0;width:100%;padding:14px var(--gutter);background:var(--pearl);border-bottom:1px solid #cad5e0;align-items:stretch;flex-direction:column;max-height:75dvh;overflow:auto;}
+ header.open nav {display:flex;}header nav>a, header .nav-services {padding:10px 4px;}
+ header .nav-dropdown {position:static;margin-top:8px;}
+}
+@media(max-width:760px){
+ header,header.scrolled {height:60px;min-height:60px;gap:8px;}header .logo{width:100px;}header .nav-cta{display:block;font-size:12px;padding:9px 10px;}
+ body main > :is(.section,.hero,.service-scope,.service-faq,.service-contact,.service-related,.contact-layout,.hiring-layout,.contact-page-intro){padding-block:34px;}
+ body .service-grid{grid-template-columns:1fr;}
+ body .hero-grid,body .service-contact,body .contact-layout {grid-template-columns:minmax(0,1fr);}
+ body .onboarding-card{min-height:228px;}
+}
+
+#approach .principles > article {
+  background: #afccea;
+  border-color: #afccea;
+}
+#approach .principles h3 { color: var(--navy); }
+#approach .principles p { color: var(--navy); }
+#approach .principles .index { color: var(--navy); }
+#approach .principle-icon { color: var(--navy); background: var(--pearl); }
+
+#why-emsit .editorial-heading {
+  text-align: center;
+  margin: 0 auto clamp(30px, 4vw, 48px);
+}
+#why-emsit .story-grid {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr);
+  gap: clamp(32px, 4vw, 76px);
+  align-items: start;
+}
+#why-emsit .story-visual { margin: 0; width: 100%; }
+#why-emsit .offset-image img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+#why-emsit .benefit-list { display: grid; gap: 18px; }
+#why-emsit .benefit-list li { margin-block: 0; }
+@media (max-width: 760px) {
+  #why-emsit .story-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  #why-emsit .offset-image img { aspect-ratio: 3 / 2; }
+}
+
+#services .service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+#services .service-card:nth-child(odd) { background: #F7E5E3; }
+#services .service-card:nth-child(even) { background: #E8EEF5; }
+@media (max-width: 900px) {
+  #services .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  #services .service-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+#why-emsit .editorial-heading { margin-bottom: clamp(20px, 3vw, 32px); }
+#why-emsit .story-grid { max-width: 1080px; gap: clamp(20px, 3vw, 40px); }
+#why-emsit .story-visual { align-self: start; }
+#why-emsit .story-copy h3 { margin-bottom: 16px; }
+#why-emsit .benefit-list { margin-top: 0; gap: 12px; }
+#why-emsit .benefit-list li { gap: 12px; }
+#why-emsit .benefit-list p { margin-top: 2px; line-height: 1.5; }
+#why-emsit .why-cost { margin-top: 5px; line-height: 1.25; }
+#why-emsit .why-cost-note { margin-top: 14px; }
+
+#why-emsit .benefit-list li > div > strong { font-size: clamp(19px, 1.5vw, 22px); line-height: 1.3; }
+#why-emsit .why-cost strong { font-size: 18px; letter-spacing: 0; }
+
+body main .onboarding-grid > .onboarding-card {
+  border-radius: 20px;
+  padding: 22px 24px;
+  min-height: 215px;
+  background: var(--pearl);
+  transform: none;
+}
+body main .onboarding-grid > .onboarding-card-dark { background: var(--navy); border-color: var(--navy); color: white; }
+body main .onboarding-card .onboarding-icon {
+  display: inline-grid; place-items: center;
+  width: 48px; height: 48px; border-radius: 50%; background: var(--navy); color: white;
+}
+body main .onboarding-card .onboarding-number { color: var(--sky); font-size: 48px; }
+body main .onboarding-card h3 { margin-top: 16px; }
+body main .onboarding-card-dark .onboarding-icon { background: var(--coral); color: var(--navy); }
+body main .onboarding-card-dark .onboarding-number { color: var(--coral); }
+body main .onboarding-card-dark :is(h3,button,.onboarding-detail p,.onboarding-hint) { color: white; }
+
+body footer { padding-inline: max(var(--gutter), calc((100% - var(--content)) / 2)); }
+main > #home.hero ~ :is(#why-emsit, #difference) { padding-block: clamp(24px, 3vw, 36px); }
+#why-emsit .story-grid { max-width: none; gap: clamp(16px, 2vw, 24px); }
+#why-emsit .editorial-heading, #difference .problem-heading { margin-bottom: 16px; }
+#why-emsit .editorial-heading h2, #difference .problem-heading h2 { margin: 12px 0 0; font-size: clamp(30px, 3vw, 40px); }
+#why-emsit .editorial-heading::after, #difference .problem-heading::after { margin-top: 12px; }
+#why-emsit .story-copy h3 { margin-bottom: 10px; }
+#why-emsit .benefit-list { gap: 8px; }
+#difference :is(.problem-rows,.problem-columns) { max-width: none; margin-inline: 0; }
+#difference .problem-columns { font-size: 16px; margin-bottom: 8px; }
+#difference .problem-rows { gap: 8px; }
+#difference :is(.concern-cell,.solution-cell) { min-height: 46px; padding: 6px 10px; gap: 10px; }
+#difference :is(.concern-icon,.solution-check) { width: 32px; height: 32px; }
+#difference .concern-icon svg { width: 18px; height: 18px; }
+#difference :is(.solution-check,.problem-arrow) { font-size: 22px; }
+#difference .problem-row p { font-size: 15px; }
+@media (min-width: 761px) {
+  #difference :is(.problem-row,.problem-columns) { grid-template-columns: minmax(0,1fr) 22px minmax(0,1.07fr); gap: 8px; }
+}
+
+/* Shared content edges for the public page bodies. */
+:root { --section-inset: max(clamp(24px, 10vw, 148px), calc((100% - 900px) / 2)); }
+@media (max-width: 760px) { :root { --section-inset: clamp(24px, 7vw, 48px); } }
+body main > section:not(.hero):not(.service-hero):not(.contact-page-intro),
+body main > .service-benefits,
+body main.application-layout {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: var(--section-inset);
+}
+
+#home.hero { padding-inline: clamp(20px, 4vw, 76px); }
+#home .hero-photo-blend::after {
+  background: linear-gradient(to right, var(--pearl), transparent 30%);
+}
