@@ -196,3 +196,18 @@ body main.application-layout {
 #home .hero-photo-blend::after {
   background: linear-gradient(to right, var(--pearl), transparent 30%);
 }
+
+#inquire.service-contact > div > h2 {
+  margin: 0 0 18px;
+  font-size: clamp(38px, 4.8vw, 64px);
+  font-weight: 450;
+  line-height: 1.06;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+#inquire.service-contact > div > p:not(.eyebrow) {
+  max-width: 36ch;
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.55;
+}
+#locations .kazakhstan-grid { display: grid; grid-template-columns: minmax(0, 420px); justify-content: center; }
