@@ -70,3 +70,19 @@ body main form label { font-size: .875rem; font-weight: 650; }
   body main h2 { font-size: clamp(1.55rem, 7.5vw, 2rem) !important; }
   body main h3 { font-size: 1.4375rem !important; }
 }
+
+/* Compact headings for narrow columns and service cards. */
+body main .contact-info h1 {
+  margin: 16px 0 20px;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem) !important;
+  font-weight: 750 !important;
+  line-height: 1.16 !important;
+  overflow-wrap: normal;
+  text-wrap: balance;
+}
+body main .service-benefits h2 {
+  font-size: clamp(1.25rem, 1.9vw, 1.5rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  overflow-wrap: normal;
+}
