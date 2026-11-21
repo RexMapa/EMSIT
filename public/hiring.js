@@ -6,7 +6,7 @@ form.addEventListener('submit',async event=>{
 event.preventDefault();if(!form.reportValidity())return;
 const button=form.querySelector('[type=submit]'),status=form.querySelector('.form-status');if(button.disabled)return;
 const data=Object.fromEntries(new FormData(form));
-const labels={jobTitle:'Role',phone:'Phone',businessWebsite:'Business website',description:'Job description',programs:'Essential programs',hours:'Working hours / time zone',headcount:'Number of hires',workplace:'Workplace preference',country:'Talent location preference',referral:'Referring agent',source:'How you heard about us',additional:'Additional details'};
+const labels={jobTitle:'Role',phone:'Phone',businessWebsite:'Business website',description:'Job description',programs:'Essential programs',hours:'Working hours / time zone',headcount:'Number of hires',workplace:'Workplace preference',...(Object.hasOwn(data, 'country') ? {country:'Talent location preference'} : {}),referral:'Referring agent',source:'How you heard about us',additional:'Additional details'};
 const message='QUOTATION REQUEST\n\n'+Object.entries(labels).map(([key,label])=>`${label}: ${data[key]||'Not provided'}`).join('\n\n');
 if(message.length>3000){status.textContent='Please shorten your job description or additional details to submit.';return;}
 const payload={firstName:data.firstName,lastName:data.lastName,email:data.email,company:data.company,website:data.website,role:'Help defining a role',message};
