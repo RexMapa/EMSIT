@@ -184,7 +184,7 @@ main > #home.hero ~ :is(#why-emsit, #difference) { padding-block: clamp(24px, 3v
 @media (max-width: 760px) { :root { --section-inset: clamp(24px, 7vw, 48px); } }
 body main > section:not(.hero):not(.service-hero):not(.contact-page-intro),
 body main > .service-benefits,
-body main.application-layout {
+body .application-layout {
   box-sizing: border-box;
   width: 100%;
   max-width: none;

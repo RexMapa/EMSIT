@@ -1,0 +1,66 @@
+﻿#process {
+  padding: 80px 0;
+  border-block: 1px solid #d9e0f5;
+  background: #fafbff;
+  color: #2a1e18;
+  font-family: "Segoe UI Variable Text", "Segoe UI", Arial, sans-serif;
+  line-height: 1.5;
+}
+#process .process-inner { width: min(calc(100% - 48px), 1088px); margin-inline: auto; }
+#process .process-heading { text-align: center; }
+#process .process-label {
+  margin: 0 0 14px;
+  color: #4a372d;
+  font-size: .8125rem;
+  font-weight: 750;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+#process .process-heading h2 {
+  margin: 0;
+  font: 800 2.875rem/1.12 "Segoe UI Variable Display", "Segoe UI", Arial, sans-serif;
+  letter-spacing: -.023em;
+}
+#process .process-heading::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 6px;
+  margin: 16px auto 0;
+  border-radius: 99px;
+  background: #c6d4ff;
+}
+#process .process-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+#process .process-card { padding: 28px; background: #fff; border: 1px solid #d9e0f5; border-top: 3px solid #4a372d; border-radius: 12px; }
+#process .process-icon { display: grid; place-items: center; width: 56px; height: 56px; margin-bottom: 16px; border-radius: 14px; background: #c6d4ff; }
+#process .process-icon svg { width: 28px; height: 28px; }
+#process .process-card h3 {
+  margin: 0 0 8px;
+  font: 700 1.375rem/1.18 "Segoe UI Variable Display", "Segoe UI", Arial, sans-serif;
+  letter-spacing: -.02em;
+}
+#process .process-card p { margin: 0; color: #4a372d; font-size: 1.125rem; }
+#process .process-card .process-step-label {
+  display: table;
+  margin-bottom: 8px;
+  padding: 3px 12px;
+  border-radius: 99px;
+  background: #c6d4ff;
+  color: #2a1e18;
+  font-size: .75rem;
+  font-weight: 650;
+  letter-spacing: .07em;
+}
+@media (max-width: 900px) {
+  #process .process-card { padding: 22px; }
+}
+@media (max-width: 700px) {
+  #process { padding-block: 64px; }
+  #process .process-inner { width: calc(100% - 32px); }
+  #process .process-heading h2 { font-size: clamp(1.55rem, 7.5vw, 2rem); }
+  #process .process-cards { grid-template-columns: minmax(0, 1fr); }
+  #process .process-card { padding: 28px; }
+  #process .process-card h3 { font-size: 1.4375rem; }
+  #process .process-card p { font-size: 1.1875rem; line-height: 1.55; }
+  #process .process-card .process-step-label { font-size: .75rem; }
+}
