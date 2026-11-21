@@ -4,12 +4,12 @@ The EMSIT Navy Identity v1.4 website, packaged as a standalone GitHub → Vercel
 
 ## Included
 
-- Brand-aligned Pearl/Navy homepage and complete-wordmark splash reveal, with reduced-motion support.
+- Responsive Pearl/Navy staffing homepage with service links, FAQs, and a call-request form.
 - Neumorphic surfaces, inset controls, staggered entrances, pointer depth, photo parallax and scroll progress. Styling is in `public/premium.css`; progressive animation behavior is in `public/motion.js`.
 - `/contact`: message and discovery-call tabs with date, time and timezone selection.
 - `/api/contact` and `/api/bookings`: validated submissions saved to Neon.
 - `/admin`: password-protected inbox, type/status filters, pagination, status changes and email reply links.
-- Visitor chat on the homepage and contact page; protected admin replies, unread counts, conversation history and close/reopen controls. Chat polls every four seconds while open and visible (not WebSockets).
+- Visitor chat on the contact page; protected admin replies, unread counts, conversation history and close/reopen controls. Chat polls every four seconds while open and visible (not WebSockets).
 - Signed, expiring HttpOnly admin sessions; same-origin mutation checks; shared database rate limits; duplicate-request protection; parameterized SQL.
 - Database schema, local app server, integration tests and GitHub Actions checks.
 

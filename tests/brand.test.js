@@ -4,7 +4,7 @@ import {readFile,access} from 'node:fs/promises';
 test('all application pages use the fixed wordmark and brand stylesheet',async()=>{
   for(const name of ['index.html','contact.html','hiring.html','admin.html']){
     const html=await readFile('public/'+name,'utf8');
-    assert(html.includes('/brand.css'));assert(html.includes('/assets/emsit-navy.svg'));
+    assert(html.includes(name === 'index.html' ? '/home.css' : '/brand.css'));assert(html.includes('/assets/emsit-navy.svg'));
     assert(!/href="\/?(?:luxury|style)\.css"/.test(html));
     assert(!html.includes('contact-emblem'));
     for(const match of html.matchAll(/(?:src|href)="(\/[^"#?]+)(?:[?#][^"]*)?"/g)){
