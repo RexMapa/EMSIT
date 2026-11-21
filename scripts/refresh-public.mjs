@@ -47,7 +47,7 @@ for(const file of ['index.html','contact.html','hiring.html',...fs.readdirSync(d
  if(file==='contact.html'){
   html=html.replace(/<div class="contact-tabs"[\s\S]*?<div class="contact-panel" role="tabpanel" id="panel-booking" aria-labelledby="tab-booking">/,'<div class="contact-panel" id="book">')
    .replace('Request a discovery call','Book a consultation').replace('Your next chapter,<br>on the calendar.','Book a consultation')
-   .replace(/(01 \/ WRITE TO US|02 \/ CALL US|03 \/ FIND US)/g,(label)=>'<svg aria-hidden="true" viewBox="0 0 24 24">'+icons[Number(label.slice(0,2))-1]+'</svg>'+label.slice(5));
+   .replace(/(01 \/ EMAIL US|02 \/ CALL US|03 \/ FIND US)/g,(label)=>'<svg aria-hidden="true" viewBox="0 0 24 24">'+icons[Number(label.slice(0,2))-1]+'</svg>'+label.slice(5));
  }
  if(file==='hiring.html')html=html.replace('Hiring Form — EMSIT','Request a quotation — EMSIT').replace('Hiring <em>form.</em>','Request a quotation').replace('Submit hiring request','Request a quotation');
  if(file.startsWith('services/'))html=html.replace(/(<section class="service-related">[\s\S]*?<div>)[\s\S]*?(<\/div><\/section>)/,'$1'+services.filter(([s])=>!file.endsWith('/'+s+'.html')).map(([slug,title,desc])=>'<a href="/services/'+slug+'"><h3>'+title+' ↗</h3><p>'+desc+'</p></a>').join('')+'$2');
