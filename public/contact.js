@@ -9,6 +9,6 @@ function setMenu(open) {
 }
 
 menu.addEventListener('click', () => setMenu(!header.classList.contains('open')));
-header.querySelector('nav a[href="/contact#top"]').addEventListener('click', () => setMenu(false));
+header.querySelector('nav a[href="/contact#contact-details"]').addEventListener('click', () => setMenu(false));
 
 document.querySelector('#year').textContent = new Date().getFullYear();
