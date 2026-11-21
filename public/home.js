@@ -34,7 +34,7 @@ form.addEventListener('submit', async event => {
     website: data.website,
     role: 'Help defining a role',
     message: [
-      'CALL REQUEST',
+      'STAFFING INQUIRY',
       `Role: ${data.role}`,
       `Employees: ${data.headcount}`,
       data.phone && `Phone: ${data.phone}`,
@@ -63,7 +63,7 @@ form.addEventListener('submit', async event => {
     }
     form.reset();
     attempt = null;
-    status.textContent = 'Your call request has been received. EMSIT will follow up with you.';
+    status.textContent = 'Your staffing inquiry has been received. EMSIT will follow up with you.';
   } catch (error) {
     status.textContent = error instanceof TypeError || error instanceof SyntaxError
       ? 'Unable to send your request. Your details have been kept. Please try again.'
