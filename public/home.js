@@ -1,4 +1,23 @@
-﻿const form = document.querySelector('#call-request');
+const menuToggle = document.querySelector('.menu-toggle');
+const navigation = document.querySelector('#main-nav');
+
+menuToggle.addEventListener('click', () => {
+  const open = menuToggle.getAttribute('aria-expanded') === 'true';
+  menuToggle.setAttribute('aria-expanded', String(!open));
+});
+
+navigation.addEventListener('click', event => {
+  if (event.target.closest('a')) menuToggle.setAttribute('aria-expanded', 'false');
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape' || menuToggle.getAttribute('aria-expanded') !== 'true') return;
+  if (event.target.closest('.nav-services') && event.target.closest('.nav-services').open) return;
+  menuToggle.setAttribute('aria-expanded', 'false');
+  menuToggle.focus();
+}, { capture: true });
+
+const form = document.querySelector('#call-request');
 let attempt;
 
 form.addEventListener('submit', async event => {

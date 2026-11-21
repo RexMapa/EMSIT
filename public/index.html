@@ -7,17 +7,30 @@
   <meta name="theme-color" content="#E8EEF5">
   <title>EMSIT | Dedicated Full-Time Staffing</title>
   <link rel="stylesheet" href="/home.css">
+  <script defer src="/navigation.js"></script>
   <script defer src="/home.js"></script>
 </head>
 <body id="home">
   <header class="site-header">
     <div class="container header-inner">
-      <a class="wordmark" href="#home"><img src="/assets/emsit-navy.svg" width="2125" height="632" alt="EMSIT"></a>
-      <nav aria-label="Main navigation">
-        <a href="#why-emsit">Why EMSIT</a>
-        <a href="#services">What we do</a>
+      <a class="wordmark" href="#home"><img src="/assets/emsit-navy.svg" width="2125" height="632" alt="EMSIT home"></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" aria-label="Main navigation">
         <a href="#process">How it works</a>
-        <a href="#faq">FAQ</a>
+        <details class="nav-services">
+          <summary>Services <span aria-hidden="true">⌄</span></summary>
+          <div class="nav-dropdown">
+            <a href="/services/bookkeeping">Bookkeeping support</a>
+            <a href="/services/invoicing-and-payments">AP / AR support</a>
+            <a href="/services/practice-operations">Practice operations</a>
+          </div>
+        </details>
+        <a href="#about">About us</a>
+        <a href="#locations">Locations</a>
+        <a href="/apply">Apply</a>
+        <a href="/quotation">Request a quotation</a>
+        <a href="/contact#book">Contact us</a>
+        <a class="header-cta" href="/contact#book">Book a consultation</a>
       </nav>
     </div>
   </header>
