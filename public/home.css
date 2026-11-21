@@ -30,7 +30,10 @@ button, input, select, textarea { font: inherit; }
 .header-inner { min-height: calc(var(--header-height) - 1px); display: flex; align-items: center; justify-content: space-between; }
 .wordmark { display: block; width: clamp(124px, 13vw, 168px); flex: none; }
 .wordmark img { display: block; width: 100%; height: auto; }
-#main-nav { display: flex; align-items: center; gap: clamp(10px, 1.4vw, 24px); font-size: .875rem; font-weight: 600; }
+#main-nav { display: flex; align-items: center; gap: clamp(10px, 1.15vw, 18px); font-size: .75rem; font-weight: 600; }
+@media (min-width: 1081px) {
+  #main-nav > a, #main-nav > details > summary { white-space: nowrap; }
+}
 .menu-toggle { display: none; }
 #main-nav .header-cta { background: var(--brown); color: var(--white); padding: 9px 14px; border-radius: 6px; }
 .nav-services { position: relative; border: 0; }

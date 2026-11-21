@@ -15,7 +15,7 @@ header, header.scrolled {
   gap: 16px; padding: 0 max(var(--gutter), calc((100% - var(--content))/2));
 }
 header .logo { width: clamp(146px, 14vw, 176px); flex: none; }
-header nav { margin: 0 auto; font-size: 13px; font-weight: 600; text-transform: none; letter-spacing: 0; }
+header nav { margin: 0 auto; font-size: 12px; font-weight: 600; text-transform: none; letter-spacing: 0; }
 header nav > a, header .nav-services { padding-inline: 8px; }
 header .nav-cta, header .nav-cta:hover, .service-page .service-hero .primary, body .button.primary, body .button.gold, body .button.dark {
   background: var(--navy); color: white; border: 0; font-weight: 700; text-transform: none;
@@ -214,3 +214,10 @@ body main.application-layout {
 
 /* Keep header labels uppercase, including dropdowns and mobile controls. */
 body header :is(nav a, nav summary, button, .nav-cta) { text-transform: uppercase !important; }
+
+@media (min-width: 1081px) {
+  body header nav > a,
+  body header nav > details > summary,
+  body header .nav-cta { white-space: nowrap; }
+  body header .nav-cta { font-size: 12px; padding-inline: 12px; }
+}
