@@ -211,3 +211,13 @@ footer { border-top: 1px solid var(--line); color: var(--brown); font-size: .875
 
 /* Keep header labels uppercase, including dropdowns and mobile controls. */
 body header :is(nav a, nav summary, button, .nav-cta) { text-transform: uppercase !important; }
+
+/* Use the same hover treatment on buttons and button-style links. */
+@media (hover: hover) {
+  body :is(button, input[type="submit"], input[type="button"], input[type="reset"], a.button, a.nav-cta, a.header-cta, [role="button"], .whatsapp > summary):not(:disabled):not([aria-disabled="true"]):hover {
+    background-color: #2a1e18 !important;
+    background-image: none !important;
+    color: #fff !important;
+    text-decoration: none !important;
+  }
+}
