@@ -7,20 +7,27 @@
   --coral: #f28772;
   --coral-mist: #f7e5e3;
   --white: #fff;
+  --header-height: 69px;
   font-family: "Segoe UI Variable Text", "Segoe UI", Arial, sans-serif;
   color: var(--navy);
   background: var(--pearl);
   line-height: 1.5;
 }
 * { box-sizing: border-box; }
+html { scroll-padding-top: calc(var(--header-height) + 12px); }
 body, h1, h2, h3, p, dl, dd { margin: 0; }
 a { color: inherit; }
 button, input, select, textarea { font: inherit; }
 :focus-visible { outline: 3px solid var(--coral); outline-offset: 4px; }
 .container { width: min(calc(100% - 48px), 1088px); margin-inline: auto; }
 .site-header, .hero, .contact { background: var(--mist); }
-.site-header { border-bottom: 1px solid var(--sky); }
-.header-inner { min-height: 68px; display: flex; align-items: center; justify-content: space-between; }
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--sky);
+}
+.header-inner { min-height: calc(var(--header-height) - 1px); display: flex; align-items: center; justify-content: space-between; }
 .wordmark { display: block; width: 76px; }
 .wordmark img { display: block; width: 100%; height: auto; }
 nav { display: flex; gap: 28px; font-size: .9375rem; }
