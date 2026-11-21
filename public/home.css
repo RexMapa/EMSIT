@@ -28,7 +28,7 @@ button, input, select, textarea { font: inherit; }
   border-bottom: 1px solid var(--line);
 }
 .header-inner { min-height: calc(var(--header-height) - 1px); display: flex; align-items: center; justify-content: space-between; }
-.wordmark { display: block; width: 76px; }
+.wordmark { display: block; width: clamp(124px, 13vw, 168px); flex: none; }
 .wordmark img { display: block; width: 100%; height: auto; }
 #main-nav { display: flex; align-items: center; gap: clamp(10px, 1.4vw, 24px); font-size: .875rem; font-weight: 600; }
 .menu-toggle { display: none; }

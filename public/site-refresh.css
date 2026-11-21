@@ -14,7 +14,7 @@ header, header.scrolled {
   border-radius: 0; background: var(--pearl); display: flex; align-items: center;
   gap: 16px; padding: 0 max(var(--gutter), calc((100% - var(--content))/2));
 }
-header .logo { width: 142px; flex: none; }
+header .logo { width: clamp(146px, 14vw, 176px); flex: none; }
 header nav { margin: 0 auto; font-size: 13px; font-weight: 600; text-transform: none; letter-spacing: 0; }
 header nav > a, header .nav-services { padding-inline: 8px; }
 header .nav-cta, header .nav-cta:hover, .service-page .service-hero .primary, body .button.primary, body .button.gold, body .button.dark {
@@ -76,7 +76,7 @@ body #locations { scroll-margin-top:0; }
  header .nav-dropdown {position:static;margin-top:8px;}
 }
 @media(max-width:760px){
- header,header.scrolled {height:60px;min-height:60px;gap:8px;}header .logo{width:100px;}header .nav-cta{display:block;font-size:12px;padding:9px 10px;}
+ header,header.scrolled {height:60px;min-height:60px;gap:8px;}header .logo{width:clamp(110px, 29vw, 132px);}header .nav-cta{display:block;font-size:12px;padding:9px 10px;}
  body main > :is(.section,.hero,.service-scope,.service-faq,.service-contact,.service-related,.contact-layout,.hiring-layout,.contact-page-intro){padding-block:34px;}
  body .service-grid{grid-template-columns:1fr;}
  body .hero-grid,body .service-contact,body .contact-layout {grid-template-columns:minmax(0,1fr);}
