@@ -86,3 +86,14 @@ body main .service-benefits h2 {
   line-height: 1.2 !important;
   overflow-wrap: normal;
 }
+
+/* Keep the Virtual Assistant headline on two balanced lines. */
+body main h1.virtual-assistant-title {
+  container-type: inline-size;
+  overflow-wrap: normal;
+}
+.virtual-assistant-title > span {
+  display: block;
+  font-size: min(4.625rem, 8.3cqi);
+  white-space: nowrap;
+}
