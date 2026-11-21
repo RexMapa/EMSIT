@@ -224,3 +224,44 @@ body header :is(nav a, nav summary, button, .nav-cta) { text-transform: uppercas
     text-decoration: none !important;
   }
 }
+
+/* Onboarding uses the page palette and the original step-card behavior. */
+.onboarding-process {
+  --pearl: var(--page);
+  --navy: var(--ink);
+  --mist: var(--lavender);
+  --slate: var(--brown);
+  --coral: var(--periwinkle);
+  padding-block: clamp(42px, 5vw, 64px);
+}
+.onboarding-process h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 350;
+}
+.onboarding-process .heading::after { width: 54px; height: 3px; margin-block: 24px 0; }
+.onboarding-process .onboarding-grid { gap: 16px; margin-top: 28px; }
+.onboarding-process .onboarding-card {
+  min-height: 224px;
+  padding: 22px 24px 28px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: none;
+}
+.onboarding-process .onboarding-card-dark { border-color: var(--ink); color: var(--white); }
+.onboarding-process .onboarding-icon { width: 46px; height: 46px; }
+.onboarding-process .onboarding-icon svg { width: 24px; height: 24px; }
+.onboarding-process .onboarding-number { top: 26px; right: 24px; color: var(--periwinkle); }
+.onboarding-process .onboarding-card-dark .onboarding-number { color: var(--brown); }
+.onboarding-process .onboarding-card-dark .onboarding-icon { color: var(--ink); }
+.onboarding-process .onboarding-card h3 { margin: 16px 0 10px; font-size: 1.375rem; }
+.onboarding-process .onboarding-card button::after { border-radius: 20px; }
+.onboarding-process .onboarding-hint { bottom: 28px; inset-inline: 30px; }
+.onboarding-process .onboarding-detail { visibility: hidden; }
+.onboarding-process .onboarding-card:is(.is-open, :focus-within) .onboarding-detail { visibility: visible; }
+@media (hover: hover) {
+  .onboarding-process .onboarding-card:hover .onboarding-detail { visibility: visible; }
+  .onboarding-process .onboarding-card button:hover {
+    background-color: transparent !important;
+    color: inherit !important;
+  }
+}
