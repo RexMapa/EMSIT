@@ -41,7 +41,7 @@ for(const file of ['index.html','contact.html','hiring.html',...fs.readdirSync(d
   html=html.replace(/<section class="model section"[\s\S]*?<\/section>/,'')
    .replace(/<section class="contact section" id="contact">[\s\S]*?<\/section>/,'')
    .replace(/<div class="service-grid">[\s\S]*?<\/div><p class="services-note">[\s\S]*?<\/p>/,'<div class="service-grid">'+cards+'</div>')
-   .replace('Welcome to EMSIT.</h3>','Welcome to <img class="welcome-logo" src="/assets/emsit-navy.svg" alt="EMSIT"></h3>')
+   .replace('Welcome to EMSIT.</h3>','Welcome to <img class="welcome-logo" src="/assets/emsit-dark-brown-wordmark.png" alt="EMSIT"></h3>')
    .replace('Let’s scope this role','Request a quotation').replace('id="role-contact" href="/contact"','id="role-contact" href="/quotation"');
  }
  if(file==='contact.html'){
