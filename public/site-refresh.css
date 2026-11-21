@@ -22,7 +22,7 @@ header .nav-cta, header .nav-cta:hover, .service-page .service-hero .primary, bo
   border-radius: 6px; padding: 12px 18px; font-size: 14px;
 }
 header .nav-cta span { display:none; }
-body .nav-dropdown { top: calc(100% + 12px); border: 1px solid #cfdae6; border-radius: 6px; }
+body .nav-dropdown { top: calc(100% + 12px); border: 1px solid #D9E0F5; border-radius: 6px; }
 body main > :is(.section,.hero,.service-scope,.service-faq,.service-contact,.service-related,.contact-layout,.hiring-layout,.contact-page-intro) {
   width: 100%; max-width: none; margin: 0; padding: 54px max(var(--gutter), calc((100% - var(--content))/2)); border-radius: 0;
 }
@@ -37,12 +37,12 @@ body .section :is(.editorial-heading,.problem-heading) { margin-bottom:28px; }
 body .section :is(.service-grid,.principles,.kazakhstan-grid,.onboarding-grid,.highlight-grid) { gap:16px; }
 body :is(.offset-image,.about-person,.service-visual) { margin:0; padding:0; }
 body .about-person img, body .offset-image img { height:clamp(260px,30vw,365px); }
-body main :is(.highlight-card,.service-card,.principles article,.onboarding-card,.role-panel,.service-benefits article,.service-visual,.location-card,.contact-card,.hiring-form,.service-inquiry-form,.hiring-help) { border-radius:8px; border:1px solid #d6e1eb; }
+body main :is(.highlight-card,.service-card,.principles article,.onboarding-card,.role-panel,.service-benefits article,.service-visual,.location-card,.contact-card,.hiring-form,.service-inquiry-form,.hiring-help) { border-radius:8px; border:1px solid #D9E0F5; }
 body :is(.intro::before,.intro::after,.hero::before,.hero h1 em::after,.section-top .eyebrow::before,.button::after,.location-grid::before,.depth-layer) { display:none; }
 body main > :is(.why-emsit,.locations-section,.roles,.service-contact,.approach) { background:var(--mist); }
 body .about-person, body .hiring-help { background:var(--coral-mist); }
 body main :is(h1,h2,h3,h1 em,h2 em,h3 em,.benefit-list strong,.service-card h3,.role-tabs button,.service-related h3) { color:var(--navy); }
-body main :is(.eyebrow,.owner-label,.service-number,.onboarding-number) { color:var(--coral); }
+body main :is(.eyebrow,.owner-label,.service-number,.onboarding-number) { color:var(--coral-deep); }
 body main .eyebrow { font-size:13px; font-weight:600; letter-spacing:.09em; }
 body :is(.benefit-list strong,.service-benefits h2,.service-card h3,.problem-columns,.onboarding-card h3) { font-weight:600; }
 body .service-benefits h2 { font-size:23px; }
@@ -64,14 +64,14 @@ body .application-layout { max-width:860px; margin:auto; padding:52px var(--gutt
 body .application-layout .service-inquiry-form { background:white; margin-top:24px; }
 body .whatsapp { position:fixed; right:18px; bottom:18px; z-index:60; border:0; padding:0; }
 body .whatsapp summary { font-size:14px; background:var(--coral); color:var(--navy); font-weight:700; border-radius:7px; padding:12px 18px; }
-body .whatsapp div { position:absolute; bottom:54px; right:0; width:245px; padding:18px; background:white; border:1px solid #cad5e0; border-radius:8px; }
+body .whatsapp div { position:absolute; bottom:54px; right:0; width:245px; padding:18px; background:white; border:1px solid #D9E0F5; border-radius:8px; }
 body .whatsapp div p { margin:8px 0; } body .whatsapp div a { text-decoration:underline; }
 body #locations { scroll-margin-top:0; }
 @media(max-width:1100px){
  header,header.scrolled {justify-content:space-between;flex-wrap:nowrap;}
  header .menu {display:block;width:40px;height:40px;}
  header .nav-cta {margin-left:auto;}
- header nav {display:none;position:absolute;top:100%;left:0;right:0;width:100%;padding:14px var(--gutter);background:var(--pearl);border-bottom:1px solid #cad5e0;align-items:stretch;flex-direction:column;max-height:75dvh;overflow:auto;}
+ header nav {display:none;position:absolute;top:100%;left:0;right:0;width:100%;padding:14px var(--gutter);background:var(--pearl);border-bottom:1px solid #D9E0F5;align-items:stretch;flex-direction:column;max-height:75dvh;overflow:auto;}
  header.open nav {display:flex;}header nav>a, header .nav-services {padding:10px 4px;}
  header .nav-dropdown {position:static;margin-top:8px;}
 }
@@ -84,8 +84,8 @@ body #locations { scroll-margin-top:0; }
 }
 
 #approach .principles > article {
-  background: #afccea;
-  border-color: #afccea;
+  background: #C6D4FF;
+  border-color: #C6D4FF;
 }
 #approach .principles h3 { color: var(--navy); }
 #approach .principles p { color: var(--navy); }
@@ -119,8 +119,8 @@ body #locations { scroll-margin-top:0; }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(16px, 2vw, 24px);
 }
-#services .service-card:nth-child(odd) { background: #F7E5E3; }
-#services .service-card:nth-child(even) { background: #E8EEF5; }
+#services .service-card:nth-child(odd) { background: #E2E9FF; }
+#services .service-card:nth-child(even) { background: #E2E9FF; }
 @media (max-width: 900px) {
   #services .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -156,7 +156,7 @@ body main .onboarding-card .onboarding-icon {
 body main .onboarding-card .onboarding-number { color: var(--sky); font-size: 48px; }
 body main .onboarding-card h3 { margin-top: 16px; }
 body main .onboarding-card-dark .onboarding-icon { background: var(--coral); color: var(--navy); }
-body main .onboarding-card-dark .onboarding-number { color: var(--coral); }
+body main .onboarding-card-dark .onboarding-number { color: var(--coral-deep); }
 body main .onboarding-card-dark :is(h3,button,.onboarding-detail p,.onboarding-hint) { color: white; }
 
 body footer { padding-inline: max(var(--gutter), calc((100% - var(--content)) / 2)); }

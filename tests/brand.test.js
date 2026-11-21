@@ -15,9 +15,9 @@ test('all application pages use the fixed wordmark and brand stylesheet',async()
 });
 test('brand palette, Segoe stack, and logo proportions are preserved',async()=>{
   const css=await readFile('public/brand.css','utf8');
-  for(const value of ['#183153','#F8FAFC','#E8EEF5','#334155','#A8C7E8','#F28772','#F7E5E3','#A55C4E','#FFFFFF'])assert(css.includes(value));
+  for(const value of ['#2A1E18','#F3F6FF','#E2E9FF','#4A372D','#C6D4FF','#FFFFFF'])assert(css.includes(value));
   assert(css.includes('Segoe UI Semilight'));assert(css.includes('Segoe UI Variable Text'));
   assert(!css.includes('@import'));assert(css.includes('prefers-reduced-motion'));
-  const svg=await readFile('public/assets/emsit-navy.svg','utf8');assert(svg.includes('viewBox="-160 -160 2125 632"'));assert(!svg.includes('<text'));assert(svg.includes('fill="#183153"'));
+  const svg=await readFile('public/assets/emsit-navy.svg','utf8');assert(svg.includes('viewBox="-160 -160 2125 632"'));assert(!svg.includes('<text'));assert(svg.includes('fill="#2A1E18"'));
   assert(190*1805/2125>=160);
 });
