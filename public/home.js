@@ -12,7 +12,7 @@ navigation.addEventListener('click', event => {
 
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape' || menuToggle.getAttribute('aria-expanded') !== 'true') return;
-  if (event.target.closest('.nav-services') && event.target.closest('.nav-services').open) return;
+  if (event.target.closest('.nav-services[open]')) return;
   menuToggle.setAttribute('aria-expanded', 'false');
   menuToggle.focus();
 }, { capture: true });
