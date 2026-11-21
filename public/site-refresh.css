@@ -211,3 +211,6 @@ body main.application-layout {
   line-height: 1.55;
 }
 #locations .kazakhstan-grid { display: grid; grid-template-columns: minmax(0, 420px); justify-content: center; }
+
+/* Keep header labels uppercase, including dropdowns and mobile controls. */
+body header :is(nav a, nav summary, button, .nav-cta) { text-transform: uppercase !important; }

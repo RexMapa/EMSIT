@@ -178,7 +178,7 @@ footer { border-top: 1px solid var(--line); color: var(--brown); font-size: .875
 .service-card { text-decoration: none; }
 .service-card:hover { text-decoration: underline; }
 
-@media (max-width: 960px) {
+@media (max-width: 1080px) {
   .menu-toggle {
     display: inline-flex;
     border: 1px solid var(--ink);
@@ -208,3 +208,6 @@ footer { border-top: 1px solid var(--line); color: var(--brown); font-size: .875
   .nav-dropdown { position: static; border: 0; padding: 0 0 0 16px; }
   #main-nav .header-cta { align-self: flex-start; margin-top: 6px; }
 }
+
+/* Keep header labels uppercase, including dropdowns and mobile controls. */
+body header :is(nav a, nav summary, button, .nav-cta) { text-transform: uppercase !important; }
