@@ -8,7 +8,7 @@ export default endpoint(async (req, res) => {
   if (req.method === 'GET') {
     const params = new URL(req.url, 'http://localhost').searchParams;
     const kind = params.get('kind') || 'all', status = params.get('status') || 'all', offset = Number(params.get('offset') || 0);
-    if (!['all','message','booking'].includes(kind) || !['all','new','contacted','confirmed','closed'].includes(status) || !Number.isSafeInteger(offset) || offset < 0 || offset > 1000000) throw new HttpError(400, 'Invalid filters.');
+    if (!['all','message','booking','apply','quotation','ready'].includes(kind) || !['all','new','contacted','confirmed','closed'].includes(status) || !Number.isSafeInteger(offset) || offset < 0 || offset > 1000000) throw new HttpError(400, 'Invalid filters.');
     const search = (params.get('search') || '').trim();
     if(search.length > 160) throw new HttpError(400, 'Search is too long.');
     const sql=database();
