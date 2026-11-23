@@ -44,14 +44,46 @@ passwordForm.addEventListener('submit', async event => {
 
 const forms = [...document.querySelectorAll('.inbox-tabs button')];
 let activeForm = forms[0];
-let offset=0, hasMore=false, loadId=0;
+const requests = $('#requests');
+const liveInterval = 5000;
+let offset = 0;
+let hasMore = false;
+let pendingSaves = 0;
+let lastItems;
+let requestController;
+let liveTimer;
+$('#search').addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  requestController?.abort();
+  searchTimer = setTimeout(() => {
+    searchTimer = undefined;
+    offset = 0;
+    load();
+  }, 300);
+});
+
+document.addEventListener('visibilitychange', () => scheduleLiveUpdate(0));
 async function api(path, options={}) {
   const response=await fetch(path,{...options,headers:{'Content-Type':'application/json',...options.headers}});
   const data=await response.json();
   if(!response.ok){const error=new Error(data.error||'Request failed.');error.status=response.status;throw error}
   return data;
 }
-function signedIn(value){document.body.dataset.adminAuthenticated=String(value);if(!value)++loadId;$('#login-panel').hidden=value;$('#inbox').hidden=!value;$('.admin-header-actions').hidden=!value;if(!value)setSettings(false);if(!value)$('#requests').replaceChildren();}
+function signedIn(value) {
+  document.body.dataset.adminAuthenticated = String(value);
+  $('#login-panel').hidden = value;
+  $('#inbox').hidden = !value;
+  $('.admin-header-actions').hidden = !value;
+  if (!value) {
+    clearTimeout(liveTimer);
+    clearTimeout(searchTimer);
+    searchTimer = undefined;
+    requestController?.abort();
+    lastItems = undefined;
+    requests.replaceChildren();
+    setSettings(false);
+  }
+}
 function element(tag,text,className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el}
 function render(items){
   const list=$('#requests');list.replaceChildren();
@@ -68,14 +100,83 @@ function render(items){
     reply.href='mailto:'+encodeURIComponent(item.email)+'?subject='+encodeURIComponent('Your EMSIT submission');
     foot.append(element('span',new Date(item.created_at).toLocaleString()+' · '+item.id.slice(0,8).toUpperCase()),reply);card.append(foot);
     const feedback=element('p','','request-feedback');feedback.setAttribute('role','status');card.append(feedback);
-    select.addEventListener('change',async()=>{select.disabled=true;try{await api('/api/requests',{method:'PATCH',body:JSON.stringify({id:item.id,status:select.value})});item.status=select.value;feedback.textContent='Status saved. No email was sent.'}catch(error){select.value=item.status;feedback.textContent=error.message;if(error.status===401)signedIn(false)}finally{select.disabled=false}});
+    select.addEventListener('change',async()=>{select.disabled=true;++pendingSaves;try{await api('/api/requests',{method:'PATCH',body:JSON.stringify({id:item.id,status:select.value})});item.status=select.value;feedback.textContent='Status saved. No email was sent.'}catch(error){select.value=item.status;feedback.textContent=error.message;if(error.status===401)signedIn(false)}finally{--pendingSaves;select.disabled=false}});
     list.append(card);
   }
 }
-async function load(){const current=++loadId;$('#admin-status').textContent='Loading requests…';$('#previous').disabled=true;$('#next').disabled=true;try{const result=await api('/api/requests?'+new URLSearchParams({kind:activeForm.dataset.kind,status:$('#status').value,search:$('#search').value.trim(),offset}));if(current!==loadId)return;hasMore=result.hasMore;render(result.items);$('#page-number').textContent='Page '+(offset/50+1);$('#admin-status').textContent='';$('#previous').disabled=offset===0;$('#next').disabled=!hasMore}catch(error){if(current!==loadId)return;$('#admin-status').textContent=error.message;$('#requests').replaceChildren();if(error.status===401)signedIn(false)}}
+function inboxVisible() {
+  return !$('#inbox').hidden && !document.hidden;
+}
+
+function safeToUpdate() {
+  return pendingSaves === 0 && !requests.contains(document.activeElement);
+}
+
+function scheduleLiveUpdate(delay = liveInterval) {
+  clearTimeout(liveTimer);
+  if (!inboxVisible()) return;
+  liveTimer = setTimeout(() => {
+    if (searchTimer || !safeToUpdate()) {
+      scheduleLiveUpdate();
+      return;
+    }
+    load({background:true});
+  }, delay);
+}
+
+async function load({background = false} = {}) {
+  if ($('#inbox').hidden) return;
+  clearTimeout(liveTimer);
+  requestController?.abort();
+  const controller = new AbortController();
+  requestController = controller;
+  const status = $('#admin-status');
+  const previous = $('#previous');
+  const next = $('#next');
+  if (!background) {
+    status.textContent = 'Loading requests…';
+    previous.disabled = true;
+    next.disabled = true;
+    lastItems = undefined;
+  }
+  try {
+    const query = new URLSearchParams({
+      kind: activeForm.dataset.kind,
+      status: $('#status').value,
+      search: $('#search').value.trim(),
+      offset
+    });
+    const result = await api('/api/requests?' + query, {signal:controller.signal});
+    if (controller.signal.aborted || (background && !safeToUpdate())) return;
+
+    const snapshot = JSON.stringify(result.items);
+    if (snapshot !== lastItems) {
+      render(result.items);
+      lastItems = snapshot;
+    }
+    hasMore = result.hasMore;
+    $('#page-number').textContent = 'Page ' + (offset / 50 + 1);
+    status.textContent = '';
+    previous.disabled = offset === 0;
+    next.disabled = !hasMore;
+  } catch (error) {
+    if (controller.signal.aborted) return;
+    if (error.status === 401) {
+      signedIn(false);
+      status.textContent = 'Your session expired. Please sign in again.';
+    } else if (background) {
+      status.textContent = 'Live updates paused. Reconnecting…';
+    } else {
+      status.textContent = error.message;
+      requests.replaceChildren();
+    }
+  } finally {
+    if (requestController === controller && !controller.signal.aborted) scheduleLiveUpdate();
+  }
+}
 $('#login-form').addEventListener('submit',async event=>{event.preventDefault();const button=event.currentTarget.querySelector('button');button.disabled=true;$('#login-status').textContent='Signing in…';try{await api('/api/session',{method:'POST',body:JSON.stringify({password:new FormData(event.currentTarget).get('password')})});$('#login-form').reset();$('#login-status').textContent='';signedIn(true);await load()}catch(error){$('#login-status').textContent=error.message}finally{button.disabled=false}});
-$('#logout').addEventListener('click',async()=>{try{await api('/api/session',{method:'DELETE'});++loadId;signedIn(false);$('#admin-status').textContent='Signed out.'}catch(error){$('#admin-status').textContent=error.message}});
-$('#refresh').addEventListener('click',load);$('#status').addEventListener('change',()=>{offset=0;load()});
+$('#logout').addEventListener('click',async()=>{try{await api('/api/session',{method:'DELETE'});signedIn(false);$('#admin-status').textContent='Signed out.'}catch(error){$('#admin-status').textContent=error.message}});
+$('#status').addEventListener('change',()=>{offset=0;load()});
 for (const button of forms) {
   button.addEventListener('click', () => {
     if (button === activeForm) return;
