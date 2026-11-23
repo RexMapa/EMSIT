@@ -1,19 +1,45 @@
 const $ = selector => document.querySelector(selector);
-const header = $('header');
-const menu = $('header .menu');
+const settings = $('#password-settings');
+const settingsToggle = $('#settings-toggle');
+const passwordForm = $('#password-form');
 
-function setMenu(open) {
-  header.classList.toggle('open', open);
-  menu.setAttribute('aria-expanded', String(open));
-  menu.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  menu.textContent = open ? '×' : '☰';
+function setSettings(open) {
+  settings.hidden = !open;
+  settingsToggle.setAttribute('aria-expanded', String(open));
+  if (open) {
+    passwordForm.elements.currentPassword.focus();
+  } else {
+    passwordForm.reset();
+    $('#password-status').textContent = '';
+  }
 }
 
-menu.addEventListener('click', () => setMenu(!header.classList.contains('open')));
-header.addEventListener('keydown', event => {
-  if (event.key !== 'Escape' || !header.classList.contains('open') || event.target.closest('.nav-services[open]')) return;
-  setMenu(false);
-  menu.focus();
+settingsToggle.addEventListener('click', () => setSettings(settings.hidden));
+passwordForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const button = passwordForm.querySelector('button[type="submit"]');
+  const status = $('#password-status');
+  const {currentPassword, newPassword, confirmPassword} = Object.fromEntries(new FormData(passwordForm));
+  if (newPassword !== confirmPassword) {
+    status.textContent = 'The new passwords must match.';
+    return;
+  }
+  button.disabled = true;
+  status.textContent = 'Saving password…';
+  try {
+    await api('/api/session', {method:'PATCH',body:JSON.stringify({currentPassword,newPassword})});
+    passwordForm.reset();
+    status.textContent = 'Password changed. Other sessions have been signed out.';
+  } catch (error) {
+    if (error.status === 401) {
+      signedIn(false);
+      $('#admin-status').textContent = 'Your session expired. Please sign in again.';
+    } else {
+      status.textContent = error.message;
+    }
+  } finally {
+    button.disabled = false;
+  }
 });
 
 const forms = [...document.querySelectorAll('.inbox-tabs button')];
@@ -25,7 +51,7 @@ async function api(path, options={}) {
   if(!response.ok){const error=new Error(data.error||'Request failed.');error.status=response.status;throw error}
   return data;
 }
-function signedIn(value){document.body.dataset.adminAuthenticated=String(value);if(!value)++loadId;$('#login-panel').hidden=value;$('#inbox').hidden=!value;$('#logout').hidden=!value;$('#admin-book').hidden=value;if(!value)$('#requests').replaceChildren();}
+function signedIn(value){document.body.dataset.adminAuthenticated=String(value);if(!value)++loadId;$('#login-panel').hidden=value;$('#inbox').hidden=!value;$('.admin-header-actions').hidden=!value;if(!value)setSettings(false);if(!value)$('#requests').replaceChildren();}
 function element(tag,text,className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el}
 function render(items){
   const list=$('#requests');list.replaceChildren();

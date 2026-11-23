@@ -25,3 +25,8 @@ CREATE TABLE IF NOT EXISTS emsit_rate_limits (
   expires_at timestamptz NOT NULL
 );
 CREATE INDEX IF NOT EXISTS emsit_rate_limits_expiry_idx ON emsit_rate_limits (expires_at);
+
+CREATE TABLE IF NOT EXISTS emsit_admin_credentials (
+  id integer PRIMARY KEY CHECK (id = 1),
+  password_hash text NOT NULL
+);

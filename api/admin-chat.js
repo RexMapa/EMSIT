@@ -1,11 +1,11 @@
 import {database} from '../lib/db.js';
 import {endpoint,requireMethod,sameOrigin,readJson,json} from '../lib/http.js';
-import {requireAdmin} from '../lib/auth.js';
+import {requireStoredAdmin} from '../lib/admin-credentials.js';
 import {HttpError} from '../lib/validation.js';
 import {expireChats} from '../lib/chat-recovery.js';
 import {chatList,chatMessages,markChatRead,messageInput,sendChatMessage,cursor,threadId} from '../lib/chat.js';
 export function adminChatEndpoint(getDatabase=database){return endpoint(async(req,res)=>{
-  requireMethod(req,res,['GET','POST','PATCH']);requireAdmin(req);
+  requireMethod(req,res,['GET','POST','PATCH']);await requireStoredAdmin(req, getDatabase);
   if(req.method!=='GET')sameOrigin(req);
   const sql=getDatabase(),params=new URL(req.url,'http://localhost').searchParams;
   await expireChats(sql);

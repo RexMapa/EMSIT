@@ -1,10 +1,10 @@
 import { endpoint, requireMethod, sameOrigin, readJson, json } from '../lib/http.js';
-import { requireAdmin } from '../lib/auth.js';
+import { requireStoredAdmin } from '../lib/admin-credentials.js';
 import { database } from '../lib/db.js';
 import { listRequests, updateStatus, requestSummary } from '../lib/store.js';
 import { HttpError, uuid } from '../lib/validation.js';
 export default endpoint(async (req, res) => {
-  requireMethod(req, res, ['GET','PATCH']); requireAdmin(req);
+  requireMethod(req, res, ['GET','PATCH']); await requireStoredAdmin(req, database);
   if (req.method === 'GET') {
     const params = new URL(req.url, 'http://localhost').searchParams;
     const kind = params.get('kind') || 'all', status = params.get('status') || 'all', offset = Number(params.get('offset') || 0);
