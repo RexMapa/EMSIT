@@ -1,4 +1,21 @@
 const $ = selector => document.querySelector(selector);
+const header = $('header');
+const menu = $('header .menu');
+
+function setMenu(open) {
+  header.classList.toggle('open', open);
+  menu.setAttribute('aria-expanded', String(open));
+  menu.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  menu.textContent = open ? '×' : '☰';
+}
+
+menu.addEventListener('click', () => setMenu(!header.classList.contains('open')));
+header.addEventListener('keydown', event => {
+  if (event.key !== 'Escape' || !header.classList.contains('open') || event.target.closest('.nav-services[open]')) return;
+  setMenu(false);
+  menu.focus();
+});
+
 const forms = [...document.querySelectorAll('.inbox-tabs button')];
 let activeForm = forms[0];
 let offset=0, hasMore=false, loadId=0;
@@ -8,7 +25,7 @@ async function api(path, options={}) {
   if(!response.ok){const error=new Error(data.error||'Request failed.');error.status=response.status;throw error}
   return data;
 }
-function signedIn(value){document.body.dataset.adminAuthenticated=String(value);if(!value)++loadId;$('#login-panel').hidden=value;$('#inbox').hidden=!value;$('#logout').hidden=!value;if(!value)$('#requests').replaceChildren();}
+function signedIn(value){document.body.dataset.adminAuthenticated=String(value);if(!value)++loadId;$('#login-panel').hidden=value;$('#inbox').hidden=!value;$('#logout').hidden=!value;$('#admin-book').hidden=value;if(!value)$('#requests').replaceChildren();}
 function element(tag,text,className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el}
 function render(items){
   const list=$('#requests');list.replaceChildren();
