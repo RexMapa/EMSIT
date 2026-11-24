@@ -29,16 +29,13 @@ form.addEventListener('submit', async event => {
   const data = Object.fromEntries(new FormData(form));
   const payload = {
     fullName: data.name.trim(),
-    company: data.company,
     email: data.email,
     website: data.website,
     role: 'Help defining a role',
     message: [
       'STAFFING INQUIRY',
-      `Role: ${data.role}`,
-      `Employees: ${data.headcount}`,
-      data.phone && `Phone: ${data.phone}`,
-      data.message
+      data.phone.trim() && `Phone: ${data.phone.trim()}`,
+      data.message.trim()
     ].filter(Boolean).join('\n')
   };
 
