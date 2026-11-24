@@ -1,4 +1,10 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>EMSIT — Team inbox</title><link rel="stylesheet" href="/brand.css"><script defer src="/admin.js"></script><link rel="stylesheet" href="/premium.css"><script defer src="/motion.js"></script><link rel="stylesheet" href="/color-refresh.css"><link rel="stylesheet" href="/navigation.css"><link rel="stylesheet" href="/site-refresh.css"><link rel="stylesheet" href="/admin.css"></head><body class="admin-page"><header><a class="logo" href="/#home" aria-label="EMSIT home"><img src="/assets/emsit-dark-brown-wordmark.png" alt="EMSIT" width="2172" height="724"></a><div class="admin-header-actions" hidden>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>EMSIT — Team inbox</title><link rel="stylesheet" href="/brand.css"><script defer src="/admin.js"></script><link rel="stylesheet" href="/premium.css"><script defer src="/motion.js"></script><link rel="stylesheet" href="/color-refresh.css"><link rel="stylesheet" href="/navigation.css"><link rel="stylesheet" href="/site-refresh.css"><link rel="stylesheet" href="/admin.css"></head><body class="admin-page"><header><a class="logo" href="/#home" aria-label="EMSIT home"><img src="/assets/emsit-dark-brown-wordmark.png" alt="EMSIT" width="2172" height="724"></a><nav class="inbox-tabs" id="admin-tabs" aria-label="Admin navigation" hidden>
+  <button type="button" data-kind="dashboard" aria-pressed="true">Dashboard</button>
+  <button type="button" data-kind="apply" aria-pressed="false">Apply</button>
+  <button type="button" data-kind="quotation" aria-pressed="false">Quotation</button>
+  <button type="button" data-kind="ready" aria-pressed="false">Ready to Get Started</button>
+</nav>
+<div class="admin-header-actions" hidden>
   <button class="nav-cta" id="settings-toggle" type="button" aria-controls="password-settings" aria-expanded="false">Settings</button>
   <button class="nav-cta" id="logout" type="button">Sign out</button>
 </div></header><main class="admin-main"><section id="login-panel" class="contact-card login-card" hidden><p class="eyebrow">PRIVATE WORKSPACE</p><h1>Welcome back.</h1><p>Sign in to review applications, quotation requests, and staffing inquiries.</p><form id="login-form"><label>Admin password<input type="password" name="password" autocomplete="current-password" required maxlength="256"></label><button type="submit" class="button gold">Sign in <span>↗</span></button><p role="status" id="login-status"></p></form></section><section id="password-settings" class="contact-card password-settings" aria-labelledby="password-heading" hidden>
@@ -11,12 +17,7 @@
     <button type="submit" class="button gold">Save password</button>
     <p id="password-status" role="status"></p>
   </form>
-</section><div class="inbox-tabs" role="group" id="admin-tabs" aria-label="Admin views" hidden>
-  <button type="button" class="button outline" data-kind="dashboard" aria-pressed="true">Dashboard</button>
-  <button type="button" class="button outline" data-kind="apply" aria-pressed="false">Apply</button>
-  <button type="button" class="button outline" data-kind="quotation" aria-pressed="false">Quotation</button>
-  <button type="button" class="button outline" data-kind="ready" aria-pressed="false">Ready to Get Started</button>
-</div><section id="traffic" class="traffic-panel" aria-labelledby="traffic-title" hidden>
+</section><section id="traffic" class="traffic-panel" aria-labelledby="traffic-title" hidden>
   <div class="traffic-heading">
     <h1 id="traffic-title">Website traffic</h1>
     <p>Last 7 days, including today (UTC)</p>
