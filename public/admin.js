@@ -281,15 +281,12 @@ function renderTraffic(rows) {
     dayRows.push(row);
   }
   $('#traffic-days').replaceChildren(...dayRows);
-  const pageRows = [...pages].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([path, count]) => {
+  const pageRows = [...pages].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 5).map(([path, count]) => {
     const row = element('li');
     row.append(element('span', path === '/' ? 'Home' : path), element('strong', count.toLocaleString()));
     return row;
   });
-  const rankedPages = $('#traffic-pages');
-  const scrollPosition = rankedPages.scrollTop;
-  rankedPages.replaceChildren(...(pageRows.length ? pageRows : [element('li','No page views recorded yet.')]));
-  rankedPages.scrollTop = scrollPosition;
+  $('#traffic-pages').replaceChildren(...(pageRows.length ? pageRows : [element('li','No page views recorded yet.')]));
 }
 
 api('/api/session').then(()=>{signedIn(true)}).catch(error=>{signedIn(false);$('#admin-status').textContent=error.status===401?'':error.message});
