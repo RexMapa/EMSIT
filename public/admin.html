@@ -11,21 +11,26 @@
     <button type="submit" class="button gold">Save password</button>
     <p id="password-status" role="status"></p>
   </form>
-</section><section id="traffic" class="traffic-panel" aria-labelledby="traffic-title" hidden>
+</section><div class="inbox-tabs" role="group" id="admin-tabs" aria-label="Admin views" hidden>
+  <button type="button" class="button outline" data-kind="dashboard" aria-pressed="true">Dashboard</button>
+  <button type="button" class="button outline" data-kind="apply" aria-pressed="false">Apply</button>
+  <button type="button" class="button outline" data-kind="quotation" aria-pressed="false">Quotation</button>
+  <button type="button" class="button outline" data-kind="ready" aria-pressed="false">Ready to Get Started</button>
+</div><section id="traffic" class="traffic-panel" aria-labelledby="traffic-title" hidden>
   <div class="traffic-heading">
-    <h2 id="traffic-title">Website traffic</h2>
+    <h1 id="traffic-title">Website traffic</h1>
     <p>Last 7 days, including today (UTC)</p>
   </div>
   <p id="traffic-status" role="status"></p>
   <div id="traffic-report" hidden>
-    <p class="traffic-total"><strong id="traffic-total"></strong> page views</p>
+    <dl class="traffic-metrics">
+      <div class="traffic-metric traffic-metric-primary"><dt>Page views · 7 days</dt><dd id="traffic-total">—</dd></div>
+      <div class="traffic-metric"><dt>Page views today</dt><dd id="traffic-today">—</dd></div>
+      <div class="traffic-metric"><dt>Pages viewed · 7 days</dt><dd id="traffic-page-count">—</dd></div>
+    </dl>
     <div class="traffic-columns">
-      <div><h3>Daily page views</h3><ol class="traffic-days" id="traffic-days"></ol></div>
-      <div><h3>Most-viewed pages</h3><ol class="traffic-pages" id="traffic-pages"></ol></div>
+      <div class="traffic-card"><h2>Daily page views</h2><ol class="traffic-days" id="traffic-days"></ol></div>
+      <div class="traffic-card"><h2>Most-viewed pages</h2><ol class="traffic-pages" id="traffic-pages"></ol></div>
     </div>
   </div>
-</section><section id="inbox" hidden><div class="inbox-heading"><div><h1>Form submissions</h1></div></div><div class="inbox-tabs" role="group" aria-label="Submission forms">
-  <button type="button" class="button outline" data-kind="apply" aria-pressed="true">Apply</button>
-  <button type="button" class="button outline" data-kind="quotation" aria-pressed="false">Quotation</button>
-  <button type="button" class="button outline" data-kind="ready" aria-pressed="false">Ready to Get Started</button>
-</div><div class="inbox-filters"><label class="search-field">Search requests<input id="search" type="search" maxlength="160" placeholder="Name, email or company" autocomplete="off"></label><label>Status<select id="status"><option value="all">All statuses</option><option value="new">New</option><option value="contacted">Contacted</option><option value="closed">Closed</option></select></label></div><div id="requests" aria-live="polite"></div><div class="pagination"><button class="button outline" id="previous">← Previous</button><span id="page-number"></span><button class="button outline" id="next">Next →</button></div></section><p id="admin-status" role="status">Checking your session…</p></main></body></html>
+</section><section id="inbox" hidden><div class="inbox-heading"><div><h1 id="inbox-title">Form submissions</h1></div></div><div class="inbox-filters"><label class="search-field">Search requests<input id="search" type="search" maxlength="160" placeholder="Name, email or company" autocomplete="off"></label><label>Status<select id="status"><option value="all">All statuses</option><option value="new">New</option><option value="contacted">Contacted</option><option value="closed">Closed</option></select></label></div><div id="requests" aria-live="polite"></div><div class="pagination"><button class="button outline" id="previous">← Previous</button><span id="page-number"></span><button class="button outline" id="next">Next →</button></div></section><p id="admin-status" role="status">Checking your session…</p></main></body></html>

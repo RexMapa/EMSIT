@@ -75,9 +75,14 @@ async function api(path, options={}) {
 function signedIn(value) {
   document.body.dataset.adminAuthenticated = String(value);
   $('#login-panel').hidden = value;
-  $('#inbox').hidden = !value;
-  $('#traffic').hidden = !value;
-  updateTrafficSession(value);
+  $('#admin-tabs').hidden = !value;
+  if (value) {
+    openAdminView();
+  } else {
+    $('#inbox').hidden = true;
+    $('#traffic').hidden = true;
+    updateTrafficSession();
+  }
   $('.admin-header-actions').hidden = !value;
   if (!value) {
     clearTimeout(liveTimer);
@@ -179,18 +184,34 @@ async function load({background = false} = {}) {
     if (requestController === controller && !controller.signal.aborted) scheduleLiveUpdate();
   }
 }
-$('#login-form').addEventListener('submit',async event=>{event.preventDefault();const button=event.currentTarget.querySelector('button');button.disabled=true;$('#login-status').textContent='Signing in…';try{await api('/api/session',{method:'POST',body:JSON.stringify({password:new FormData(event.currentTarget).get('password')})});$('#login-form').reset();$('#login-status').textContent='';signedIn(true);await load()}catch(error){$('#login-status').textContent=error.message}finally{button.disabled=false}});
+$('#login-form').addEventListener('submit',async event=>{event.preventDefault();const button=event.currentTarget.querySelector('button');button.disabled=true;$('#login-status').textContent='Signing in…';try{await api('/api/session',{method:'POST',body:JSON.stringify({password:new FormData(event.currentTarget).get('password')})});$('#login-form').reset();$('#login-status').textContent='';signedIn(true)}catch(error){$('#login-status').textContent=error.message}finally{button.disabled=false}});
 $('#logout').addEventListener('click',async()=>{try{await api('/api/session',{method:'DELETE'});signedIn(false);$('#admin-status').textContent='Signed out.'}catch(error){$('#admin-status').textContent=error.message}});
 $('#status').addEventListener('change',()=>{offset=0;load()});
+function openAdminView() {
+  const dashboard = activeForm.dataset.kind === 'dashboard';
+  clearTimeout(liveTimer);
+  clearTimeout(searchTimer);
+  searchTimer = undefined;
+  requestController?.abort();
+  $('#admin-status').textContent = '';
+  $('#traffic').hidden = !dashboard;
+  $('#inbox').hidden = dashboard;
+  updateTrafficSession(dashboard);
+  if (!dashboard) {
+    offset = 0;
+    requests.replaceChildren();
+    $('#inbox-title').textContent = activeForm.textContent.trim();
+    load();
+  }
+}
+
 for (const button of forms) {
   button.addEventListener('click', () => {
     if (button === activeForm) return;
     activeForm.setAttribute('aria-pressed', 'false');
     activeForm = button;
     activeForm.setAttribute('aria-pressed', 'true');
-    offset = 0;
-    $('#requests').replaceChildren();
-    load();
+    openAdminView();
   });
 }
 $('#next').addEventListener('click',()=>{if(hasMore){offset+=50;load()}});$('#previous').addEventListener('click',()=>{offset=Math.max(0,offset-50);load()});
@@ -198,12 +219,12 @@ let searchTimer;$('#search').addEventListener('input',()=>{clearTimeout(searchTi
 let trafficTimer;
 let trafficRequest;
 
-function updateTrafficSession(authenticated) {
+function updateTrafficSession(showDashboard) {
   clearTimeout(trafficTimer);
   trafficRequest?.abort();
   $('#traffic-report').hidden = true;
-  $('#traffic-status').textContent = authenticated ? 'Loading traffic…' : '';
-  if (authenticated) refreshTraffic();
+  $('#traffic-status').textContent = showDashboard ? 'Loading traffic…' : '';
+  if (showDashboard) refreshTraffic();
 }
 
 async function refreshTraffic() {
@@ -218,8 +239,14 @@ async function refreshTraffic() {
     renderTraffic(rows);
     $('#traffic-report').hidden = false;
     $('#traffic-status').textContent = '';
-  } catch {
-    if (!controller.signal.aborted) $('#traffic-status').textContent = 'Traffic data is temporarily unavailable.';
+  } catch (error) {
+    if (controller.signal.aborted) return;
+    if (error.status === 401) {
+      signedIn(false);
+      $('#admin-status').textContent = 'Your session expired. Please sign in again.';
+    } else {
+      $('#traffic-status').textContent = 'Traffic data is temporarily unavailable. Retrying…';
+    }
   } finally {
     if (trafficRequest === controller && !controller.signal.aborted) {
       trafficTimer = setTimeout(refreshTraffic, 30000);
@@ -238,6 +265,8 @@ function renderTraffic(rows) {
     if (path) pages.set(path, (pages.get(path) ?? 0) + count);
   }
   $('#traffic-total').textContent = total.toLocaleString();
+  $('#traffic-today').textContent = ([...days.values()].at(-1) ?? 0).toLocaleString();
+  $('#traffic-page-count').textContent = pages.size.toLocaleString();
   const largestDay = Math.max(1, ...days.values());
   const dateLabel = new Intl.DateTimeFormat(undefined, {month:'short', day:'numeric', timeZone:'UTC'});
   const dayRows = [];
@@ -245,8 +274,10 @@ function renderTraffic(rows) {
     const row = element('li');
     const bar = element('span', undefined, 'traffic-bar');
     bar.setAttribute('aria-hidden', 'true');
-    bar.style.setProperty('--traffic-width', (100 * count / largestDay) + '%');
-    row.append(element('span', dateLabel.format(new Date(day + 'T00:00:00Z'))), bar, element('strong', count.toLocaleString()));
+    bar.style.setProperty('--traffic-height', (100 * count / largestDay) + '%');
+    const track = element('span', undefined, 'traffic-track');
+    track.append(bar);
+    row.append(element('strong', count.toLocaleString()), track, element('span', dateLabel.format(new Date(day + 'T00:00:00Z'))));
     dayRows.push(row);
   }
   $('#traffic-days').replaceChildren(...dayRows);
@@ -258,4 +289,4 @@ function renderTraffic(rows) {
   $('#traffic-pages').replaceChildren(...(pageRows.length ? pageRows : [element('li','No page views recorded yet.')]));
 }
 
-api('/api/session').then(()=>{signedIn(true);load()}).catch(error=>{signedIn(false);$('#admin-status').textContent=error.status===401?'':error.message});
+api('/api/session').then(()=>{signedIn(true)}).catch(error=>{signedIn(false);$('#admin-status').textContent=error.status===401?'':error.message});
