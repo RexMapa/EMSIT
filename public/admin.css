@@ -95,11 +95,14 @@
 }
 
 .traffic-columns {
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  grid-template-columns: minmax(0, 2.5fr) minmax(230px, 1fr);
+  --traffic-chart-height: clamp(160px, 22vw, 280px);
 }
 
-.traffic-card h2 {
-  font-size: 19px;
+.admin-page #traffic .traffic-card h2 {
+  font-size: clamp(17px, 2vw, 24px);
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .traffic-columns ol {
@@ -117,7 +120,7 @@
 .traffic-days li {
   display: grid;
   min-width: 0;
-  grid-template-rows: auto 110px auto;
+  grid-template-rows: auto var(--traffic-chart-height) auto;
   justify-items: center;
   align-items: end;
   gap: 7px;
@@ -133,8 +136,8 @@
 .traffic-track {
   display: flex;
   align-items: end;
-  width: min(100%, 38px);
-  height: 110px;
+  width: min(100%, 62px);
+  height: 100%;
   background: var(--mist);
   border-radius: 6px;
 }
@@ -144,6 +147,13 @@
   height: var(--traffic-height);
   background: var(--navy);
   border-radius: 6px;
+}
+
+.traffic-pages {
+  max-height: calc(var(--traffic-chart-height) + 2.5rem);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  padding-inline-end: 8px;
 }
 
 .traffic-pages li {
