@@ -96,11 +96,13 @@
 
 .traffic-columns {
   grid-template-columns: minmax(0, 1.65fr) minmax(265px, 1fr);
-  --traffic-chart-height: clamp(140px, 18vw, 220px);
+  --traffic-chart-height: clamp(120px, 15vw, 170px);
 }
 
 .admin-page #traffic .traffic-card h2 {
-  font-size: clamp(17px, 2vw, 22px);
+  /* Override the public-page heading scale in compact dashboard cards. */
+  font-size: clamp(16px, 2vw, 21px) !important;
+  font-weight: 700;
   letter-spacing: normal;
   line-height: 1.2;
   white-space: nowrap;
@@ -137,17 +139,16 @@
 .traffic-track {
   display: flex;
   align-items: end;
-  width: min(75%, 36px);
+  width: min(65%, 28px);
   height: 100%;
-  background: var(--mist);
-  border-radius: 6px;
+  border-bottom: 1px solid #dce3f4;
 }
 
 .traffic-bar {
   width: 100%;
   height: var(--traffic-height);
   background: var(--navy);
-  border-radius: 6px;
+  border-radius: 5px 5px 0 0;
 }
 
 .traffic-pages li {
