@@ -62,7 +62,10 @@ $('#search').addEventListener('input', () => {
   }, 300);
 });
 
-document.addEventListener('visibilitychange', () => scheduleLiveUpdate(0));
+document.addEventListener('visibilitychange', () => {
+  scheduleLiveUpdate(0);
+  if (!document.hidden && !$('#traffic').hidden) refreshTraffic();
+});
 async function api(path, options={}) {
   const response=await fetch(path,{...options,headers:{'Content-Type':'application/json',...options.headers}});
   const data=await response.json();
@@ -73,6 +76,8 @@ function signedIn(value) {
   document.body.dataset.adminAuthenticated = String(value);
   $('#login-panel').hidden = value;
   $('#inbox').hidden = !value;
+  $('#traffic').hidden = !value;
+  updateTrafficSession(value);
   $('.admin-header-actions').hidden = !value;
   if (!value) {
     clearTimeout(liveTimer);
@@ -190,4 +195,67 @@ for (const button of forms) {
 }
 $('#next').addEventListener('click',()=>{if(hasMore){offset+=50;load()}});$('#previous').addEventListener('click',()=>{offset=Math.max(0,offset-50);load()});
 let searchTimer;$('#search').addEventListener('input',()=>{clearTimeout(searchTimer);++loadId;searchTimer=setTimeout(()=>{offset=0;load()},300)});
+let trafficTimer;
+let trafficRequest;
+
+function updateTrafficSession(authenticated) {
+  clearTimeout(trafficTimer);
+  trafficRequest?.abort();
+  $('#traffic-report').hidden = true;
+  $('#traffic-status').textContent = authenticated ? 'Loading traffic…' : '';
+  if (authenticated) refreshTraffic();
+}
+
+async function refreshTraffic() {
+  if (document.hidden || $('#traffic').hidden) return;
+  clearTimeout(trafficTimer);
+  trafficRequest?.abort();
+  const controller = new AbortController();
+  trafficRequest = controller;
+  try {
+    const {rows} = await api('/api/traffic', {signal:controller.signal});
+    if (controller.signal.aborted) return;
+    renderTraffic(rows);
+    $('#traffic-report').hidden = false;
+    $('#traffic-status').textContent = '';
+  } catch {
+    if (!controller.signal.aborted) $('#traffic-status').textContent = 'Traffic data is temporarily unavailable.';
+  } finally {
+    if (trafficRequest === controller && !controller.signal.aborted) {
+      trafficTimer = setTimeout(refreshTraffic, 30000);
+    }
+  }
+}
+
+function renderTraffic(rows) {
+  const days = new Map();
+  const pages = new Map();
+  let total = 0;
+  for (const {day, path, views} of rows) {
+    const count = Number(views);
+    total += count;
+    days.set(day, (days.get(day) ?? 0) + count);
+    if (path) pages.set(path, (pages.get(path) ?? 0) + count);
+  }
+  $('#traffic-total').textContent = total.toLocaleString();
+  const largestDay = Math.max(1, ...days.values());
+  const dateLabel = new Intl.DateTimeFormat(undefined, {month:'short', day:'numeric', timeZone:'UTC'});
+  const dayRows = [];
+  for (const [day, count] of days) {
+    const row = element('li');
+    const bar = element('span', undefined, 'traffic-bar');
+    bar.setAttribute('aria-hidden', 'true');
+    bar.style.setProperty('--traffic-width', (100 * count / largestDay) + '%');
+    row.append(element('span', dateLabel.format(new Date(day + 'T00:00:00Z'))), bar, element('strong', count.toLocaleString()));
+    dayRows.push(row);
+  }
+  $('#traffic-days').replaceChildren(...dayRows);
+  const pageRows = [...pages].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 5).map(([path, count]) => {
+    const row = element('li');
+    row.append(element('span', path === '/' ? 'Home' : path), element('strong', count.toLocaleString()));
+    return row;
+  });
+  $('#traffic-pages').replaceChildren(...(pageRows.length ? pageRows : [element('li','No page views recorded yet.')]));
+}
+
 api('/api/session').then(()=>{signedIn(true);load()}).catch(error=>{signedIn(false);$('#admin-status').textContent=error.status===401?'':error.message});

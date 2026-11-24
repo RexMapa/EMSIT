@@ -44,3 +44,68 @@
 .password-settings button {
   justify-self: start;
 }
+
+.traffic-panel {
+  margin-bottom: 32px;
+  padding: clamp(18px, 4vw, 32px);
+  background: var(--pearl);
+  border: 1px solid var(--sky);
+  border-radius: 8px;
+}
+
+.traffic-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 20px;
+}
+
+.traffic-panel h2, .traffic-panel h3, .traffic-heading p {
+  margin: 0;
+}
+
+.traffic-total {
+  margin: 16px 0 24px;
+}
+
+.traffic-total strong {
+  font-size: clamp(28px, 5vw, 42px);
+  margin-right: 6px;
+}
+
+.traffic-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 24px;
+}
+
+.traffic-columns ol {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.traffic-columns li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding-block: 6px;
+  overflow-wrap: anywhere;
+}
+
+.traffic-days li {
+  grid-template-columns: 4.5em minmax(0, 1fr) minmax(2em, auto);
+}
+
+.traffic-days strong {
+  text-align: right;
+}
+
+.traffic-bar {
+  background: var(--navy);
+  width: var(--traffic-width);
+  height: 8px;
+  border-radius: 8px;
+}

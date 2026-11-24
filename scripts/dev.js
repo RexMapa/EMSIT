@@ -7,7 +7,8 @@ import session from '../api/session.js';
 import requests from '../api/requests.js';
 import chat from '../api/chat.js';
 import adminChat from '../api/admin-chat.js';
-const routes = {'/api/contact':contact,'/api/bookings':bookings,'/api/session':session,'/api/requests':requests,'/api/chat':chat,'/api/admin-chat':adminChat};
+import traffic from '../api/traffic.js';
+const routes = {'/api/traffic':traffic,'/api/contact':contact,'/api/bookings':bookings,'/api/session':session,'/api/requests':requests,'/api/chat':chat,'/api/admin-chat':adminChat};
 const root = resolve('public');
 const server = http.createServer(async(req,res)=>{
   try {

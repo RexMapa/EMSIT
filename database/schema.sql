@@ -30,3 +30,10 @@ CREATE TABLE IF NOT EXISTS emsit_admin_credentials (
   id integer PRIMARY KEY CHECK (id = 1),
   password_hash text NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS emsit_page_views (
+  view_date date NOT NULL,
+  page_path text NOT NULL,
+  views bigint NOT NULL DEFAULT 1 CHECK (views > 0),
+  PRIMARY KEY (view_date, page_path)
+);

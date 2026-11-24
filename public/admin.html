@@ -11,6 +11,19 @@
     <button type="submit" class="button gold">Save password</button>
     <p id="password-status" role="status"></p>
   </form>
+</section><section id="traffic" class="traffic-panel" aria-labelledby="traffic-title" hidden>
+  <div class="traffic-heading">
+    <h2 id="traffic-title">Website traffic</h2>
+    <p>Last 7 days, including today (UTC)</p>
+  </div>
+  <p id="traffic-status" role="status"></p>
+  <div id="traffic-report" hidden>
+    <p class="traffic-total"><strong id="traffic-total"></strong> page views</p>
+    <div class="traffic-columns">
+      <div><h3>Daily page views</h3><ol class="traffic-days" id="traffic-days"></ol></div>
+      <div><h3>Most-viewed pages</h3><ol class="traffic-pages" id="traffic-pages"></ol></div>
+    </div>
+  </div>
 </section><section id="inbox" hidden><div class="inbox-heading"><div><h1>Form submissions</h1></div></div><div class="inbox-tabs" role="group" aria-label="Submission forms">
   <button type="button" class="button outline" data-kind="apply" aria-pressed="true">Apply</button>
   <button type="button" class="button outline" data-kind="quotation" aria-pressed="false">Quotation</button>
